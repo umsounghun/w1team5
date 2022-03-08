@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
-
+import time
+import schedule
 import requests
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
@@ -8,8 +9,7 @@ from pymongo import MongoClient
 client = MongoClient('mongodb+srv://test:sparta@cluster0.e5mxe.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
 
-@app.route('/')
-def home():
+def Crowling():
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
     candidates = requests.get(
@@ -23,7 +23,7 @@ def home():
         if image_list is not None:
             images = image_list.select('img')
             for a in images:
-                li_image =a['src']
+                li_image = a['src']
         symbol_list = can_list.select_one('.thumb')
         if symbol_list is not None:
             li_symbol = symbol_list.text
@@ -33,16 +33,25 @@ def home():
         party_list = can_list.select_one('.party')
         if party_list is not None:
             li_party = party_list.text
-        doc={
-            'image' : li_image,
-            'name' : li_name,
-            'party' : li_party,
-            'symbol' : li_symbol
+        doc = {
+            'image': li_image,
+            'name': li_name,
+            'party': li_party,
+            'symbol': li_symbol
         }
         if can_list is not profile[-1]:
             li_can.append(doc)
-    print(li_can)
-    return render_template('index.html', list = li_can )
+        db.candidate.insert_one(doc)
+    print('DB input Sucess')
+
+#10분마다 크롤링 진행.
+schedule.every(30).minutes.do(Crowling)
+
+@app.route('/')
+def home():
+    posting = list(db.candidate.find({}, {'_id': False}))
+    print(posting)
+    return render_template('index.html', list = posting )
 
 @app.route("/candidates", methods=["GET"])
 def can_list_get():
@@ -80,3 +89,8 @@ def can_list_get():
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
+
