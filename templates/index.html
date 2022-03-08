@@ -2,13 +2,78 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>누구 뽑지?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/static/css/index.css">
-    <script src="index.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/static/js/index.js"></script>
+
+    <title>누구 뽑지?</title>
+    <script >
+        $(document).ready(function () {
+            load();
+        });
+        function load() {
+            $.ajax({
+                type: 'GET',
+                url: '/candidates',
+                data: {},
+                success: function (response) {
+                    const symbol  = response['symbol'];
+                    const name  = response['name'];
+                    const party  = response['party'];
+                    const image  = response['image'];
+                    let map_symbol,map_image,map_can_name,map_can_party;
+                    console.log(symbol);
+
+                     $('#card-box').empty();
+
+                    for(let i =0; i < symbol.length; i++)
+                    {
+                        map_symbol = symbol[i];
+                        map_can_name = name[i];
+                        map_can_party = party[i];
+                        map_image = image[i];
+
+                        let html_append = `<div class="card_arr">
+                                                <div class="card_body">
+                                                    <div class="card_element">
+                                                        <div class="card_img">
+                                                            <img id="card_image" src="${map_image}">
+                                                        </div>
+                                                        <div class="card_desc">
+                                                            <label id="card_symbol">${map_symbol}</label>
+                                                            <label id="card_name">${map_can_name}</label>
+                                                            <label id="card_party">${map_can_party}</label>
+                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>`
+
+                         $('#card-box').append(html_append);
+                    }
+
+                }
+            })
+        }
+        function load2(){
+         $.ajax({
+                type:'GET',
+                url: '/candidates',
+                data:{},
+                success: function (response){
+
+
+                    // $('#card-box').append(temp);
+                }
+            });
+        }
+    </script>
+
 </head>
 <body>
     <div class="index_header">
@@ -21,21 +86,21 @@
         <button type="button" class="btn btn-secondary">검색</button>
     </div>
     <div id="card">
-        <div class="row row-cols-1 row-cols-md-5 g-4">
-                <div class="card_arr">
-                    <div class="card_body">
-                        <div class="card_element">
-                            <div class="card_img">
-                                <img src="https://w.namu.la/s/047e2e68d3e01f68c295b623d29a5c74bffd91215b4f54a2b34058b9cac3c726e420ffee5058558f9189daecd1fcf9a10d98aacc1a5594f4fb0b940b5a7c3615d3fcf4b633c7ff6ccaae26b33b074b62e05718fc7d13d85c6914ddc6145c6810">
-                            </div>
-                            <div class="card_desc">
-                                <label>기호 1번</label>
-                                <label>윤석열</label>
-                                <label>국민의 힘</label>
-                            </div>
+        <div class="row row-cols-1 row-cols-md-5 g-4" id="card-box">
+            <div class="card_arr">
+                <div class="card_body">
+                    <div class="card_element">
+                        <div class="card_img">
+                            <img id="card_image" src="https://w.namu.la/s/047e2e68d3e01f68c295b623d29a5c74bffd91215b4f54a2b34058b9cac3c726e420ffee5058558f9189daecd1fcf9a10d98aacc1a5594f4fb0b940b5a7c3615d3fcf4b633c7ff6ccaae26b33b074b62e05718fc7d13d85c6914ddc6145c6810">
                         </div>
+                        <div class="card_desc">
+                            <label id="card_symbol">기호 1번</label>
+                            <label id="card_name">윤석열</label>
+                            <label id="card_party">국민의 힘</label>
+                         </div>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 </body>
