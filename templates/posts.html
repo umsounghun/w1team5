@@ -50,15 +50,7 @@
         }
     </style>
     <script>
-        /*포스트리스트에서 선택한 대선후보의 이름이 포함된 타이틀을 포스팅 해 줍니다.*/
-        /* a_list는 임의의 리스트로 기사 크롤링 리스트를 저장 되었을 경우 적용이 된다. */
-        let a_list = ['홍길동의 제빵교실', '홍길동의 택권도교실', '이가영의 안전운전교실', '김철수의 음악교실']
 
-        for (let i = 0; i < a_list.length; i++) {
-            if (a_list[i].includes("홍길동")) {
-                console.log(a_list[i])
-            }
-        }
 
     </script>
 
@@ -70,24 +62,44 @@
     <div class="titlel_lists">
         <!--타이틀을 붙여주는 박스-->
         <div class="news_titlel">
+            <h2>뉴스리스트</h2>
+
             <li>
-                <a href="https://news.naver.com/election/president2022/news">타이틀 뉴스입니다</a>
+                <a href="https://www.yna.co.kr/search/index?query=윤석열" target="frame_target">kbs보기</a>
             </li>
             <li>
-                <a href="https://n.news.naver.com/article/469/0000662290">타이틀 뉴스입니다</a>
+                <a href="https://www.yna.co.kr/search/index?query=윤석열" target="frame_target">연합보기</a>
             </li>
             <li>
-                <a href="https://news.naver.com/election/president2022/news">타이틀 뉴스입니다</a>
+                <a href="https://www.joongang.co.kr/search?keyword=윤석열" target="frame_target">중앙보기</a>
             </li>
+            <li>
+                <a href="https://www.chosun.com/nsearch/?query=윤석열" target="frame_target">조선보기</a>
+            </li>
+            <li>
+                <a href="https://imnews.imbc.com/more/search/?search_kwd=윤석열" target="frame_target">MBS보기</a>
+            </li>
+            <li>
+                <a href="https://news.sbs.co.kr/news/search/main.do?query=윤석열" target="frame_target">SBS보기</a>
+            </li>
+            <li>
+                <a href="https://jtbc.joins.com/search?term=윤석열" target="frame_target">JTBC보기</a>
+            </li>
+
         </div>
+
+
     </div>
-    <!--사용자가 선택한 기사를 보여주는 박스-->
-    <div class="news_viewer">
-        <iframe width="800" height="500" src="http://www.google.com?callback=JSONP_CALLBACK">관련 주소를 띄어줄 수 있는 방법을
-            찾아봅시다.
-        </iframe>
-    </div>
+</div>
+<!--사용자가 선택한 기사를 보여주는 박스-->
+<div class="news_viewer">
+    <iframe src="https://news.kbs.co.kr/search/search.do?query=" name="frame_target"
+            style="width:100%; height:400px;"></iframe>
+
+
+</div>
 </div>
 
 </body>
 </html>
+
