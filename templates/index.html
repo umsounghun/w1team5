@@ -15,7 +15,7 @@
     <title>누구 뽑지?</title>
     <script >
         $(document).ready(function () {
-            load();
+            //load();
         });
         function load() {
             $.ajax({
@@ -53,7 +53,6 @@
                                                     </div>
                                                 </div>
                                             </div>`
-
                          $('#card-box').append(html_append);
                     }
 
@@ -66,9 +65,6 @@
                 url: '/candidates',
                 data:{},
                 success: function (response){
-
-
-                    // $('#card-box').append(temp);
                 }
             });
         }
@@ -87,20 +83,22 @@
     </div>
     <div id="card">
         <div class="row row-cols-1 row-cols-md-5 g-4" id="card-box">
+            {% for def in list %}
             <div class="card_arr">
                 <div class="card_body">
                     <div class="card_element">
                         <div class="card_img">
-                            <img id="card_image" src="https://w.namu.la/s/047e2e68d3e01f68c295b623d29a5c74bffd91215b4f54a2b34058b9cac3c726e420ffee5058558f9189daecd1fcf9a10d98aacc1a5594f4fb0b940b5a7c3615d3fcf4b633c7ff6ccaae26b33b074b62e05718fc7d13d85c6914ddc6145c6810">
+                            <img id="card_image" src="{{ def.image }}">
                         </div>
                         <div class="card_desc">
-                            <label id="card_symbol">기호 1번</label>
-                            <label id="card_name">윤석열</label>
-                            <label id="card_party">국민의 힘</label>
+                            <label id="card_symbol">{{def.symbol}}</label>
+                            <label id="card_name">{{ def.name }}</label>
+                            <label id="card_party">{{def.party}}</label>
                          </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
     </div>
 </body>

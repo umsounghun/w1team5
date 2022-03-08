@@ -17,30 +17,32 @@ def home():
         headers=headers)
     soup_candidates = BeautifulSoup(candidates.text, 'html.parser')
     profile = soup_candidates.select('.list_item')
-    li_image = []
-    li_symbol = []
-    li_name = []
-    li_party = []
+    li_can = []
     for can_list in profile:
         image_list = can_list.select_one('.thumb')
         if image_list is not None:
             images = image_list.select('img')
             for a in images:
-                li_image.append(a['src'])
-    for can_list in profile:
+                li_image =a['src']
         symbol_list = can_list.select_one('.thumb')
         if symbol_list is not None:
-            li_symbol.append(symbol_list.text)
-    for can_list in profile:
+            li_symbol = symbol_list.text
         name_list = can_list.select_one('.name_txt')
         if name_list is not None:
-            li_name.append(name_list.text)
-    for can_list in profile:
+            li_name = name_list.text
         party_list = can_list.select_one('.party')
         if party_list is not None:
-            li_party.append(party_list.text)
-
-    return render_template('index.html', symbols = li_symbol, names = li_name, )
+            li_party = party_list.text
+        doc={
+            'image' : li_image,
+            'name' : li_name,
+            'party' : li_party,
+            'symbol' : li_symbol
+        }
+        if can_list is not profile[-1]:
+            li_can.append(doc)
+    print(li_can)
+    return render_template('index.html', list = li_can )
 
 @app.route("/candidates", methods=["GET"])
 def can_list_get():
