@@ -166,7 +166,6 @@
 
 
     <script>
-
         {#function posting() {#}
         {#    $.ajax({#}
         {#        type: 'POST',#}
@@ -226,6 +225,7 @@
 </div>
 <!-- 전체 박스 -->
 <div class="news_body">
+
 
     <div class="navi">
 {% for who in go_list %}
@@ -302,8 +302,18 @@
         </div>
 
 
+
+</div>
+<!--사용자가 선택한 기사를 보여주는 박스-->
+<div class="news_viewer">
+    <iframe src="https://news.kbs.co.kr/search/search.do?query=" name="frame_target"
+            style="width:100%; height:400px;"></iframe>
+
+
+</div>
 </div>
 
 </div>
 </body>
 </html>
+
