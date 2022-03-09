@@ -75,7 +75,7 @@
 </head>
 <body>
     <div class="index_header">
-        <label>누구 뽑지?</label>
+        <a href="/" ><label>누구 뽑지?</label></a>
         <button type="button" class="btn btn-success">로그인</button>
     </div>
     <div class="index_Serach">
@@ -87,10 +87,12 @@
         <div class="row row-cols-1 row-cols-md-5 g-4" id="card-box">
             {% for def in list %}
             <div class="card_arr">
+
                 <div class="card_body">
                     <div class="card_element">
+                        <a href="/posts/{{ def.name }}">
                         <div class="card_img">
-                            <a href="/posts"> <img id="card_image" src="{{ def.image }}"></a>
+                             <img id="card_image" src="{{ def.image }}"></a>
                         </div>
                         <div class="card_desc">
                             <label class="c_symbol" id="card_symbol">{{def.symbol}}</label>

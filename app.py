@@ -11,14 +11,14 @@ from pymongo import MongoClient
 client = MongoClient('mongodb+srv://test:sparta@cluster0.e5mxe.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
 
-@app.route('/posts')
-def posts():
-    can_list = list(db.candidate.find({}, {'_id': False}))
+@app.route('/posts/<keyword>')
+def posts(keyword):
+    go_list = list(db.candidate.find({}, {'_id': False}))
+    can_list = list(db.candidate.find({"name":keyword}))
+    word_receive = request.args.get("word_give")
 
-    word_recieve = request.args.get("word_give")
-
-    print(word_recieve)
-    return render_template('posts.html', list = can_list)
+    print(can_list)
+    return render_template('posts.html', go_list = go_list, list = can_list, word=keyword )
 
 def Crowling():
     headers = {
