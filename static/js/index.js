@@ -11,16 +11,11 @@ function keyword_fillter(keyword)
     for(let i=0; i < classnm.length; i++)
     {
         let can_nm = classnm[i].getElementsByClassName('c_name');
-        let can_symbol = classnm[i].getElementsByClassName('c_symbol');
-        let can_party = classnm[i].getElementsByClassName('c_party');
 
         if(can_nm[0].innerHTML.toLowerCase().indexOf(keyword) != -1)
-        {
             delarea[i].style.display = "flex";
-        }
         else
             delarea[i].style.display = "none";
-        console.log(can_nm,can_symbol,can_party)
     }
     console.log(keyword);
 

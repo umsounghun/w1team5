@@ -17,50 +17,6 @@
         $(document).ready(function () {
             //load();
         });
-        function load() {
-            $.ajax({
-                type: 'GET',
-                url: '/candidates',
-                data: {},
-                success: function (response) {
-                    const symbol  = response['symbol'];
-                    const name  = response['name'];
-                    const party  = response['party'];
-                    const image  = response['image'];
-                    let map_symbol,map_image,map_can_name,map_can_party;
-                    console.log(symbol);
-
-                     $('#card-box').empty();
-
-                    for(let i =0; i < symbol.length; i++)
-                    {
-                        map_symbol = symbol[i];
-                        map_can_name = name[i];
-                        map_can_party = party[i];
-                        map_image = image[i];
-
-                        let html_append = `<div class="card_arr">
-                                                <div class="card_body">
-                                                    <div class="card_element">
-                                                        <div class="card_img">
-                                                            <img id="card_image" src="${map_image}">
-                                                        </div>
-                                                        <div class="card_desc">
-                                                            <label class="c_symbol" id="card_symbol">${map_symbol}</label>
-                                                            <label class="c_name" id="card_name">${map_can_name}</label>
-                                                            <label class="c_party" id="card_party">${map_can_party}</label>
-                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>`
-                         $('#card-box').append(html_append);
-                    }
-
-                }
-            })
-        }
-
-
     </script>
 
 </head>
@@ -71,7 +27,7 @@
     </div>
     <div class="index_Serach">
         <select></select>
-        <input type="text" id="input_text">
+        <input type="text" onkeypress="enter_event(event)" id="input_text">
         <button type="button" class="btn btn-secondary" onclick="search_cilck()">검색</button>
     </div>
     <div id="card">
@@ -95,12 +51,21 @@
         </div>
     </div>
 </body>
-<script>
+<script >
     function search_cilck()
         {
             const keyword =$('#input_text').val()
             keyword_fillter(keyword);
 
         }
+    function enter_event(keyin)
+    {
+        let keyword = document.getElementById("input_text").value;
+        //엔터키를 눌렀는지 확인.
+        if(keyin.keyCode == 13)
+        {
+            keyword_fillter(keyword);
+        }
+    }
 </script>
 </html>
