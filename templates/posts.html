@@ -28,10 +28,10 @@
     <style>
         .mybox {
             width: 95%;
-            max-width: 700px;
+            max-width: 250px;
             padding: 20px;
             box-shadow: 0px 0px 10px 0px lightblue;
-            margin: 20px auto;
+            margin-left: 804px;
         }
 
         .mycomment {
@@ -44,6 +44,7 @@
         .mycomment > input {
             width: 70%;
         }
+
         .news_body {
             background-color: green;
             width: 95%;
@@ -113,7 +114,8 @@
                 }
             });
         }
-         /*포스트리스트에서 선택한 대선후보의 이름이 포함된 타이틀을 포스팅 해 줍니다.*/
+
+        /*포스트리스트에서 선택한 대선후보의 이름이 포함된 타이틀을 포스팅 해 줍니다.*/
         /* a_list는 임의의 리스트로 기사 크롤링 리스트를 저장 되었을 경우 적용이 된다. */
         let a_list = ['홍길동의 제빵교실', '홍길동의 택권도교실', '이가영의 안전운전교실', '김철수의 음악교실']
 
@@ -124,7 +126,7 @@
         }
 
         // function if_login() {
-        //     $.ajax({
+        //     $.ajax({ 토큰값이 있는지 없는지 여부?
         //         type: "GET",
         //         url: "/",어디서 받아와야하지..?
         //         data: {},
@@ -163,19 +165,18 @@
     </div>
     <!--사용자가 선택한 기사를 보여주는 박스-->
     <div class="news_viewer">
+        <div class="mybox">
+            <div class="mycomment">
+                <input id="comment" class="form-control" type="text" placeholder="댓글 작성">
+                <button onclick="save_comment()" type="button" class="btn btn-outline-primary">작성</button>
+            </div>
+        </div>
+        <div class="mybox" id="comment-list">
+        </div>
         <iframe width="800" height="500" src="http://www.google.com?callback=JSONP_CALLBACK">관련 주소를 띄어줄 수 있는 방법을
             찾아봅시다.
         </iframe>
     </div>
-</div>
-
-<div class="mybox">
-    <div class="mycomment">
-        <input id="comment" class="form-control" type="text" placeholder="댓글을 작성 해주세요">
-        <button onclick="save_comment()" type="button" class="btn btn-outline-primary">작성</button>
-    </div>
-</div>
-<div class="mybox" id="comment-list">
 </div>
 </body>
 </html>
