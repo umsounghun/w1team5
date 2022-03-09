@@ -1,10 +1,257 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <title>후보별페이지</title>
+
+    <style>
+        .news_body {
+            background-color: green;
+            width: 95%;
+            max-width: 1200px;
+            margin: auto;
+            height: 2000px;
+            padding-top: 20px;
+        }
+
+        .navi {
+            background-color: red;
+            width: 95%;
+            margin: 20px;
+            display: flex;
+            padding: 5px;
+        }
+
+        .navi > button {
+            margin: auto;
+        }
+
+        .news_viewer {
+            background-color: orange;
+            width: 95%;
+            max-width: 1200px;
+            height: 1800px;
+            padding: 20px;
+            margin: auto;
+        }
+
+        .new_frame {
+            background-color: black;
+            width: 60%;
+            float: left;
+        }
+
+        .rightone {
+            background-color: lightpink;
+            float: left;
+            width: 40%;
+        }
+
+        .info {
+            background-color: mediumpurple;
+            margin: 5px;
+            height: 200px;
+        }
+
+        .title_title {
+            max-width: 1200px;
+            padding: 10px;
+            margin: 5px;
+        }
+
+        .title_lists {
+            background-color: yellow;
+            max-width: 1200px;
+            padding: 10px;
+            margin: 5px;
+        }
+
+
+        .news_brand {
+            background-color: skyblue;
+            width: 95%;
+            max-width: 1200px;
+            padding: 20px;
+            margin: 20px auto;
+        }
+
+        .info > .photo {
+            float: left;
+            background-color: yellowgreen;
+            width: 60%;
+            height: 190px;
+            margin: 5px;
+        }
+
+        .info > .brief {
+            float: left;
+            background-color: aqua;
+            width: 30%;
+            margin: 5px;
+            height: 190px;
+        }
+    </style>
+    <script>
+
+        /*포스트리스트에서 선택한 대선후보의 이름이 포함된 타이틀을 포스팅 해 줍니다.*/
+        /* a_list는 임의의 리스트로 기사 크롤링 리스트를 저장 되었을 경우 적용이 된다. */
+        let a_list = ['홍길동의 제빵교실', '홍길동의 택권도교실', '이가영의 안전운전교실', '김철수의 음악교실']
+
+        for (let i = 0; i < a_list.length; i++) {
+            if (a_list[i].includes("홍길동")) {
+                console.log(a_list[i])
+            }
+        }
+
+        function posting() {
+            $.ajax({
+                type: 'POST',
+                url: '/posts',
+                data: {url_give: url, star_give: star, comment_give: comment},
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            });
+        }
+
+        function give_like(cannum) {
+            console.log(cannum)
+            let $a_like = $(`#${cannum} a[aria-label='heart']`)
+            let $i_like = $a_like.find("i")
+            if ($i_like.hasClass("fa-light")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/posts/like",
+                    data: {
+                        cannum_give: cannum,
+                        like_give: 0
+                    },
+                    success: function (response) {
+                        console.log("unlike")
+                        $i_like.addClass("fa-light").removeClass("fa-regular")
+                        $a_like.find("span.like-num").text(response["count"])
+                    }
+                })
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/posts/like",
+                    data: {
+                        cannum_give: cannum,
+                        like_give: 1
+                    },
+                    success: function (response) {
+                        console.log("like")
+                        $i_like.addClass("fa-regular").removeClass("fa-light")
+                        $a_like.find("span.like-num").text(response["count"])
+                    }
+                })
+
+            }
+        }
+
+    </script>
+
 </head>
 <body>
+<!-- 전체 박스 -->
+<div class="news_body">
+    <div class="navi">
+        <button type="button" class="btn btn-outline-light" onclick="window.location.href='/'">1번</button>
+        <button type="button" class="btn btn-outline-light">2번</button>
+        <button type="button" class="btn btn-outline-light">3번</button>
+        <button type="button" class="btn btn-outline-light">5번</button>
+        <button type="button" class="btn btn-outline-light">6번</button>
+        <button type="button" class="btn btn-outline-light">7번</button>
+        <button type="button" class="btn btn-outline-light">8번</button>
+        <button type="button" class="btn btn-outline-light">10번</button>
+        <button type="button" class="btn btn-outline-light">11번</button>
+        <button type="button" class="btn btn-outline-light">12번</button>
+        <button type="button" class="btn btn-outline-light">13번</button>
+        <button type="button" class="btn btn-outline-light">14번</button>
+    </div>
+
+    <!--사용자가 선택한 기사를 보여주는 박스-->
+    <div class="news_viewer">
+        <div class="new_frame">
+            <iframe width=99% height="500" margin=auto src="http://www.google.com?callback=JSONP_CALLBACK">관련 주소를 띄워줄 수
+                있는
+                방법을 찾아봅시다.
+            </iframe>
+        </div>
+        <div>
+
+        </div>
+        <div class="rightone">
+            <div class="info">
+
+                    <div class="photo">
+                    <img src="{{}}">
+                    <nav class="level is-mobile">
+                        <div class="level-left">
+                            <a class="level-item is-sparta" aria-label="heart"
+                               onclick="give_like('', 'heart')">
+                                <span class="icon is-small"><i class="fa fa-heart" aria-hidden="true"></i></span>&nbsp;
+                                <span class="like-num"></span>
+                            </a>
+                        </div>
+
+                    </nav>
+                </div>
+
+                <div class="brief">
+                    간단 정보
+                </div>
+            </div>
+            <!-- 타이틀 리스트 박스 -->
+            <div class="title_lists">
+                <!--타이틀을 붙여주는 박스-->
+                <div class="title_title">
+                    <h3>각 신문사별 본 후보의 검색결과를 확인하세요!</h3>
+                </div>
+                <div class="news_brand">
+                    <li>
+                        <a href="https://www.chosun.com/nsearch/?query=">조선</a>
+                    </li>
+                    <li>
+                        <a href="https://www.joongang.co.kr/search?keyword=">중앙</a>
+                    </li>
+                    <li>
+                        <a href="https://www.donga.com/news/search?query=">동아</a>
+                    </li>
+                    <li>
+                        <a href="https://search.khan.co.kr/search.html?sect=1&path=1&q=">경향</a>
+                    </li>
+                    <li>
+                        <a href="https://news.naver.com/election/president2022/news">mbc</a>
+                    </li>
+                    <li>
+                        <a href="https://news.naver.com/election/president2022/news">jtbc</a>
+                    </li>
+                    <li>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 </body>
 </html>
