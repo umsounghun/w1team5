@@ -46,9 +46,9 @@
                                                             <img id="card_image" src="${map_image}">
                                                         </div>
                                                         <div class="card_desc">
-                                                            <label id="card_symbol">${map_symbol}</label>
-                                                            <label id="card_name">${map_can_name}</label>
-                                                            <label id="card_party">${map_can_party}</label>
+                                                            <label class="c_symbol" id="card_symbol">${map_symbol}</label>
+                                                            <label class="c_name" id="card_name">${map_can_name}</label>
+                                                            <label class="c_party" id="card_party">${map_can_party}</label>
                                                          </div>
                                                     </div>
                                                 </div>
@@ -59,15 +59,8 @@
                 }
             })
         }
-        function load2(){
-         $.ajax({
-                type:'GET',
-                url: '/candidates',
-                data:{},
-                success: function (response){
-                }
-            });
-        }
+
+
     </script>
 
 </head>
@@ -78,8 +71,8 @@
     </div>
     <div class="index_Serach">
         <select></select>
-        <input type="text">
-        <button type="button" class="btn btn-secondary">검색</button>
+        <input type="text" id="input_text">
+        <button type="button" class="btn btn-secondary" onclick="search_cilck()">검색</button>
     </div>
     <div id="card">
         <div class="row row-cols-1 row-cols-md-5 g-4" id="card-box">
@@ -91,9 +84,9 @@
                             <img id="card_image" src="{{ def.image }}">
                         </div>
                         <div class="card_desc">
-                            <label id="card_symbol">{{def.symbol}}</label>
-                            <label id="card_name">{{ def.name }}</label>
-                            <label id="card_party">{{def.party}}</label>
+                            <label class="c_symbol" id="card_symbol">{{def.symbol}}</label>
+                            <label class="c_name" id="card_name">{{ def.name }}</label>
+                            <label class="c_party" id="card_party">{{def.party}}</label>
                          </div>
                     </div>
                 </div>
@@ -102,4 +95,12 @@
         </div>
     </div>
 </body>
+<script>
+    function search_cilck()
+        {
+            const keyword =$('#input_text').val()
+            keyword_fillter(keyword);
+
+        }
+</script>
 </html>
