@@ -120,18 +120,19 @@ def Crowling():
         db.candidate.insert_one(doc)
     print('DB input Sucess')
 
+    if __name__ == '__main__':
+        app.run('0.0.0.0', port=5000, debug=True)
+
 #10분마다 크롤링 진행.
 schedule.every(30).minutes.do(Crowling)
 
-@app.route('/')
-def home():
-    can_list = list(db.candidate.find({}, {'_id': False}))
-    print(can_list)
-    return render_template('index.html', list = can_list)
+# @app.route('/')
+# def home():
+#     can_list = list(db.candidate.find({}, {'_id': False}))
+#     print(can_list)
+#     return render_template('index.html', list = can_list)
 
 while True:
     schedule.run_pending()
     time.sleep(1)
 
-if __name__ == '__main__':
-    app.run('0.0.0.0', port=5000, debug=True)
