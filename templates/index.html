@@ -52,22 +52,30 @@
 
     <div class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
       <div class="modal-dialog modal-lg">
-        <div class="modal-content" onclick="close_modal()">
+        <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="modal-titles">기호 1번 *** 공약내용</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title" id="modal-titles"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="close_modal()"></button>
           </div>
           <div class="modal-body">
-            <p class="moad-desc"></p>
+              <p class="moad-desc"></p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary">관련 뉴스보러가기</button>
+            <button type="button" class="btn btn-primary" onclick="move_page('/posts')">관련 뉴스보러가기</button>
+            <button type="button" class="btn btn-primary" id="update_pledge" onclick="update_modal()">공약 업데이트하기</button>
+          </div>
+          <div class="modal-input">
+              <textarea type="text" class="desc_update" id="in_text"></textarea>
+              <button type="button" class="btn btn-primary" id="save_pledge" >공약 저장</button>
           </div>
         </div>
       </div>
     </div>
 </body>
 <script>
+    let candidate_name;
+    const candidate_list = "{{ list }}";
+    console.log(candidate_list);
     function search_cilck()
         {
             const keyword =$('#input_text').val()
@@ -85,14 +93,58 @@
     }
     function call_modal(can_symbol,can_name,can_party)
     {
-        console.log(can_name)
+        $('#update_pledge').hide();
+        candidate_name = can_name;
+        $('.moad-desc').empty();
+        document.getElementById("in_text").value = null;
         $('.modal').fadeIn();
         $('.modal-title').text(can_symbol+ " " + can_party + " " +can_name + "대선공약정보");
-        $('.moad-desc').text();
+        $('.modal-input').hide();
+        $.ajax({
+                type: 'GET',
+                url: '/detail',
+                data: {},
+                success: function (response) {
+                    let row = response['can_detail'];
+                    for(let i=0; i < row.length; i++)
+                    {
+                        if(can_name == row[i]['name'])
+                        {
+                           let desc =  row[i]['detail'].toString();
+                           $('.moad-desc').append(desc);
+                        }
+
+                    }
+                }
+            })
     }
     function close_modal()
     {
         $('.modal').fadeOut();
+    }
+    function update_modal()
+    {
+        console.log('업데이트 모달');
+        $('.modal-input').show();
+    }
+
+    $('#save_pledge').click(function (){
+        console.log('공약저장 클릭')
+        let name = candidate_name;
+        let detail = $('.desc_update').val();
+         $.ajax({
+                type: "POST",
+                url: "/detail",
+                data: {name_give: name, detail_give: detail},
+                success: function (response) {
+                    alert(response["msg"])
+                }
+            });
+        $('.modal').fadeOut();
+    })
+    function move_page(page_address)
+    {
+        location.replace(page_address);
     }
 </script>
 </html>

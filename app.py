@@ -11,9 +11,11 @@ from pymongo import MongoClient
 client = MongoClient('mongodb+srv://test:sparta@cluster0.e5mxe.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
 
+global doc
+
 @app.route('/posts')
 def posts():
-    return render_template('posts.html')
+    return render_template('posts.html' )
 
 def Crowling():
     headers = {
@@ -49,23 +51,55 @@ def Crowling():
         if can_list is not profile[-1]:
             li_can.append(doc)
         chk_list = list(db.candidate.find({'name': doc['name']}, {'_id': False}))
-        if chk_list is None:
+        count_chk = len(chk_list)
+        if count_chk == 0:
             db.candidate.insert_one(doc)
+            print('후보자 정보 insert 성공')
         else:
             db.candidate.update_one({'name' : doc['name']},{'$set': {'image': doc['image']}})
             db.candidate.update_one({'name': doc['name']}, {'$set': {'name': doc['name']}})
             db.candidate.update_one({'name': doc['name']}, {'$set': {'party': doc['party']}})
             db.candidate.update_one({'name' : doc['name']},{'$set': {'symbol': doc['symbol']}})
-        print('DB input Sucess' , chk_list)
+            print('후보자 정보 update 성공')
 
-#10분마다 크롤링 진행.
-schedule.every(30).minutes.do(Crowling)
+#30분마다 크롤링 진행.
+schedule.every(100).minutes.do(Crowling)
 
 @app.route('/')
 def home():
     can_list = list(db.candidate.find({}, {'_id': False}))
-
     return render_template('index.html', list = can_list)
+
+@app.route("/detail", methods=["GET"])
+def detail_get():
+    can_detail =  list(db.can_detail.find({}, {'_id': False}))
+    return jsonify({'can_detail': can_detail})
+
+@app.route("/detail", methods=["POST"])
+def detail_post():
+    name_receive = request.form['name_give']
+    detail_receive = request.form['detail_give']
+    doc ={
+        'name' : name_receive,
+        'detail' : detail_receive
+    }
+    print(name_receive, detail_receive)
+    chk_list = list(db.can_detail.find({'name': {'$eq' : name_receive}}, {'_id': False}))
+    count_chk = len(chk_list)
+    if count_chk == 0:
+        db.can_detail.insert_one(doc)
+        print('insert 성공')
+    else:
+        db.can_detail.update_one({'name': name_receive}, {'$set': {'detail': detail_receive}})
+        print('update 성공')
+
+    return jsonify({'msg': '공약 업데이트 성공'})
+
+@app.route("/shot", methods=["POST"])
+def value_post():
+    doc_recive = request.form['doc_give']
+    doc = doc_recive
+    return jsonify({'msg': 'dict 업데이트 성공'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

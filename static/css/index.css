@@ -106,3 +106,11 @@
     justify-content: space-between;
     align-items: center;
 }
+.modal-input{
+    display: flex;
+    flex-direction: column;
+}
+.desc_update{
+    width: 100%;
+    height: 200px;
+}
