@@ -32,7 +32,7 @@
     <div id="card">
         <div class="row row-cols-1 row-cols-md-5 g-4" id="card-box">
             {% for def in list %}
-            <div class="card_arr">
+            <div class="card_arr" onclick="call_modal('{{ def.symbol }}','{{ def.name }}','{{ def.party }}')">
                 <div class="card_body">
                     <div class="card_element">
                         <div class="card_img">
@@ -48,6 +48,23 @@
             </div>
             {% endfor %}
         </div>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content" onclick="close_modal()">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-titles">기호 1번 *** 공약내용</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p class="moad-desc"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">관련 뉴스보러가기</button>
+          </div>
+        </div>
+      </div>
     </div>
 </body>
 <script>
@@ -65,6 +82,17 @@
         {
             keyword_fillter(keyword);
         }
+    }
+    function call_modal(can_symbol,can_name,can_party)
+    {
+        console.log(can_name)
+        $('.modal').fadeIn();
+        $('.modal-title').text(can_symbol+ " " + can_party + " " +can_name + "대선공약정보");
+        $('.moad-desc').text();
+    }
+    function close_modal()
+    {
+        $('.modal').fadeOut();
     }
 </script>
 </html>
