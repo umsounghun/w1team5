@@ -11,7 +11,9 @@ db = client.dbsparta
 
 @app.route('/posts')
 def posts():
-    return render_template('posts.html')
+    can_list = list(db.candidate.find({}, {'_id': False}))
+    print(can_list)
+    return render_template('posts.html', list = can_list)
 
 def Crowling():
     headers = {

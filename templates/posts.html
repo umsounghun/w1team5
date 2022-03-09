@@ -1,6 +1,7 @@
 
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,22 +13,67 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
+
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
 
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Nanum+Gothic&display=swap" rel="stylesheet">
+
 
     <title>후보별페이지</title>
 
+
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <title>뉴스</title>
+
     <style>
-        .news_body {
+    .index_header{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #7D2AE2;
+}
+
+.index_header > button{
+    margin-top: 5px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 1.3em;
+}
+
+.index_header > label{
+    margin-top: 5px;
+    margin-left: 10px;
+    color: aliceblue;
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 1.3em;
+}
+        .news_body{
             background-color: green;
             width: 95%;
             max-width: 1200px;
+
             margin: auto;
-            height: 2000px;
             padding-top: 20px;
+
         }
 
         .navi {
@@ -40,33 +86,40 @@
 
         .navi > button {
             margin: auto;
+
+            padding: 10px;
+            margin: auto;
         }
 
         .news_viewer {
             background-color: orange;
             width: 95%;
             max-width: 1200px;
-            height: 1800px;
-            padding: 20px;
+
+            padding: 10px;
             margin: auto;
         }
 
         .new_frame {
-            background-color: black;
-            width: 60%;
+            background-color: whitesmoke;
+            width: 70%;
             float: left;
         }
 
         .rightone {
             background-color: lightpink;
             float: left;
-            width: 40%;
+            width: 30%;
+            font-size: 20px;
+            font-family: 'Nanum Brush Script', cursive;
+            font-family: 'Nanum Gothic', sans-serif;
+
         }
 
         .info {
             background-color: mediumpurple;
             margin: 5px;
-            height: 200px;
+            height: 300px;
         }
 
         .title_title {
@@ -84,9 +137,7 @@
 
 
         .news_brand {
-            background-color: skyblue;
-            width: 95%;
-            max-width: 1200px;
+
             padding: 20px;
             margin: 20px auto;
         }
@@ -104,20 +155,14 @@
             background-color: aqua;
             width: 30%;
             margin: 5px;
-            height: 190px;
+            height: 250px;
         }
+
+
     </style>
+
+
     <script>
-
-        /*포스트리스트에서 선택한 대선후보의 이름이 포함된 타이틀을 포스팅 해 줍니다.*/
-        /* a_list는 임의의 리스트로 기사 크롤링 리스트를 저장 되었을 경우 적용이 된다. */
-        let a_list = ['홍길동의 제빵교실', '홍길동의 택권도교실', '이가영의 안전운전교실', '김철수의 음악교실']
-
-        for (let i = 0; i < a_list.length; i++) {
-            if (a_list[i].includes("홍길동")) {
-                console.log(a_list[i])
-            }
-        }
 
         function posting() {
             $.ajax({
@@ -166,15 +211,20 @@
 
             }
         }
-
     </script>
 
 </head>
 <body>
+    <div class="index_header">
+        <label>누구 뽑지?</label>
+        <button type="button" class="btn btn-success">로그인</button>
+    </div>
 <!-- 전체 박스 -->
 <div class="news_body">
+
     <div class="navi">
-        <button type="button" class="btn btn-outline-light" onclick="window.location.href='/'">1번</button>
+        <button type="button" class="btn btn-outline-light" onclick="window.location.href='/posts'">1번</button>
+
         <button type="button" class="btn btn-outline-light">2번</button>
         <button type="button" class="btn btn-outline-light">3번</button>
         <button type="button" class="btn btn-outline-light">5번</button>
@@ -189,69 +239,62 @@
     </div>
 
     <!--사용자가 선택한 기사를 보여주는 박스-->
-    <div class="news_viewer">
-        <div class="new_frame">
-            <iframe width=99% height="500" margin=auto src="http://www.google.com?callback=JSONP_CALLBACK">관련 주소를 띄워줄 수
-                있는
-                방법을 찾아봅시다.
-            </iframe>
+         {% for who in list %}
+            <div id="news_viewer">
+            <div class="news_viewer">
+        <div class="new_frame" id="new_frame">
+            <iframe id="newsview" name="newsview" width=99% height="500" margin=auto src=""> </iframe>
         </div>
-        <div>
 
-        </div>
         <div class="rightone">
+
             <div class="info">
 
-                    <div class="photo">
-                    <img src="{{}}">
-                    <nav class="level is-mobile">
-                        <div class="level-left">
-                            <a class="level-item is-sparta" aria-label="heart"
-                               onclick="give_like('', 'heart')">
-                                <span class="icon is-small"><i class="fa fa-heart" aria-hidden="true"></i></span>&nbsp;
-                                <span class="like-num"></span>
-                            </a>
-                        </div>
-
-                    </nav>
+                <div class="photo">
+                <img src="{{ who.image }}">
                 </div>
+                <nav class="level is-mobile">
+                    <div class="level-left">
+                        <a class="level-item is-sparta" aria-label="heart"
+                           onclick="give_like('', 'heart')">
+                            <span class="icon is-small"><i class="fa fa-heart" aria-hidden="true"></i></span>&nbsp;
+                            <span class="like-num"></span>
+                        </a>
+                    </div>
 
+                </nav>
                 <div class="brief">
-                    간단 정보
+                <p> {{who.symbol}} </p>
+                <p>이름</p>
+                    {{who.name}}
+                <p></p>
+                <p>소속</p>
+                <p>{{who.party}}</p>
                 </div>
             </div>
+
             <!-- 타이틀 리스트 박스 -->
             <div class="title_lists">
                 <!--타이틀을 붙여주는 박스-->
                 <div class="title_title">
                     <h3>각 신문사별 본 후보의 검색결과를 확인하세요!</h3>
                 </div>
-                <div class="news_brand">
-                    <li>
-                        <a href="https://www.chosun.com/nsearch/?query=">조선</a>
-                    </li>
-                    <li>
-                        <a href="https://www.joongang.co.kr/search?keyword=">중앙</a>
-                    </li>
-                    <li>
-                        <a href="https://www.donga.com/news/search?query=">동아</a>
-                    </li>
-                    <li>
-                        <a href="https://search.khan.co.kr/search.html?sect=1&path=1&q=">경향</a>
-                    </li>
-                    <li>
-                        <a href="https://news.naver.com/election/president2022/news">mbc</a>
-                    </li>
-                    <li>
-                        <a href="https://news.naver.com/election/president2022/news">jtbc</a>
-                    </li>
-                    <li>
+                <div class="news_brand" id="link">
+                        <a href="https://www.joongang.co.kr/search?keyword={{ who.name }}" target="newsview" onclick="newsview.location.href='https://www.joongang.co.kr/search?keyword={{ who.name }}'" ><button>중앙</button></a>
+                        <a href="https://www.donga.com/news/search?query={{ who.name }} " target="newsview" onclick="newsview.location.href='https://www.donga.com/news/search?query={{ name }}'"><button>동아</button></a>
+                        <a href="https://search.khan.co.kr/search.html?sect=1&path=1&q={{ who.name }} " target="newsview" onclick="newsview.location.href='https://search.khan.co.kr/search.html?sect=1&path=1&q={{ who.name }}'"><button>경향</button></a>
+                        <a href="https://imnews.imbc.com/more/search/?search_kwd={{ who.name }} " target="newsview" onclick="newsview.location.href='https://imnews.imbc.com/more/search/?search_kwd={{ who.name }}'"><button>mbc</button></a>
+                        <a href="https://jtbc.joins.com/search?term={{ who.name }} " target="newsview" onclick="newsview.location.href='https://jtbc.joins.com/search?term={{ who.name }}'"><button>jtbc</button></a>
                 </div>
             </div>
         </div>
 
     </div>
 </div>
+{% endfor %}
 
+</div>
+
+</div>
 </body>
 </html>
