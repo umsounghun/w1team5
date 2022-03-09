@@ -10,12 +10,16 @@ from pymongo import MongoClient
 
 client = MongoClient('mongodb+srv://test:sparta@cluster0.e5mxe.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
-
 global doc
 
-@app.route('/posts')
-def posts():
-    return render_template('posts.html' )
+@app.route('/posts/<keyword>')
+def posts(keyword):
+    go_list = list(db.candidate.find({}, {'_id': False}))
+    can_list = list(db.candidate.find({"name":keyword}))
+    word_receive = request.args.get("word_give")
+
+    print(can_list)
+    return render_template('posts.html', go_list = go_list, list = can_list, word=keyword )
 
 def Crowling():
     headers = {
@@ -62,12 +66,13 @@ def Crowling():
             db.candidate.update_one({'name' : doc['name']},{'$set': {'symbol': doc['symbol']}})
             print('후보자 정보 update 성공')
 
-#30분마다 크롤링 진행.
+#100분마다 크롤링 진행.
 schedule.every(100).minutes.do(Crowling)
 
 @app.route('/')
 def home():
     can_list = list(db.candidate.find({}, {'_id': False}))
+
     return render_template('index.html', list = can_list)
 
 @app.route("/detail", methods=["GET"])
