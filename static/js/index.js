@@ -17,6 +17,12 @@ function keyword_fillter(keyword)
         else
             delarea[i].style.display = "none";
     }
-    console.log(keyword);
-
+}
+/**
+ * 모달창 생성
+ * 전달받은 파라미터로 구성된 모달창 만들기.
+ */
+function create_modal(can_name)
+{
+    
 }
