@@ -1,5 +1,5 @@
 *{
-    /*font-family: 'Black Han Sans', sans-serif;*/
+    font-family: 'Hahmlet', serif;
     /*font-size: 1.3em;*/
 }
 .index_header{
@@ -89,7 +89,8 @@
 .card_element{
     display: flex;
     flex-direction: column;
-
+    border: #aaa outset 1px;
+    border-radius: 10px;
 }
 .card_img{
     margin:auto;
@@ -100,11 +101,11 @@
     object-fit: fill;
 }
 .card_desc{
-    background-color: aqua;
-    font-size: 0.2em;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    height: 50px;
 }
 .modal-input{
     display: flex;
@@ -113,4 +114,15 @@
 .desc_update{
     width: 100%;
     height: 200px;
+}
+.c_symbol{
+    margin-left: 10px;
+    font-size: 1.5em;
+}
+.c_party{
+    margin-right: 10px;
+    font-size: 1.5em;
+}
+.c_name{
+    font-size: 2em;
 }

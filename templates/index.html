@@ -7,10 +7,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Hahmlet:wght@500&family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/static/css/index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="/static/js/index.js"></script>
+
+    <!-- Bulma CSS 링크 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 
     <title>누구 뽑지?</title>
     <script >
@@ -20,30 +23,64 @@
 
 </head>
 <body>
-    <div class="index_header">
-        <label>누구 뽑지?</label>
-        <button type="button" class="btn btn-success">로그인</button>
-        <button type="button" class="btn btn-success">로그아웃</button>
+    <section class="hero is-info is-medium">
+  <div class="hero-head">
+    <nav class="navbar">
+      <div class="container">
+        <div id="navbarMenuHeroB" class="navbar-menu">
+          <div class="navbar-end">
+            <a class="navbar-item is-active">
+              Home
+            </a>
+            <a class="navbar-item">
+              회원가입
+            </a>
+            <span class="navbar-item">
+              <a class="button is-info is-inverted">
+                <span style="font-weight: bold" onclick="move_page('/membership')">로그인</span>
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <p class="title">
+        누구 뽑지?
+      </p>
+      <p class="subtitle">
+        20대 대통령 대선후보 공약 및 뉴스 조회
+      </p>
     </div>
-    <div class="index_Serach">
-        <select></select>
-        <input type="text" onkeypress="enter_event(event)" id="input_text">
-        <button type="button" class="btn btn-secondary" onclick="search_cilck()">검색</button>
-    </div>
+  </div>
+  <div class="hero-foot">
+      <div class="tabs is-boxed is-fullwidth">
+          <div class="container" style="margin-bottom: 10px">
+              <input class="input" type="text" placeholder="Text input" onkeypress="enter_event(event)" id="input_text">
+              <button class="button is-white are-medium" onclick="search_cilck()">검색</button>
+          </div>
+      </div>
+  </div>
+</section>
     <div id="card">
         <div class="row row-cols-1 row-cols-md-5 g-4" id="card-box">
             {% for def in list %}
             <div class="card_arr" onclick="call_modal('{{ def.symbol }}','{{ def.name }}','{{ def.party }}')">
                 <div class="card_body">
                     <div class="card_element">
-                        <div class="card_img">
-                             <img id="card_image" src="{{ def.image }}">
+                        <div class="card h-100">
+                            <img class="card-img-top" id="card_image" src="{{ def.image }}">
+                            <div class="card_desc">
+                                <h2 class="c_symbol" id="card_symbol">{{def.symbol}}</h2>
+                                <h5 class="c_name" id="card_name"><strong>{{ def.name }}</strong></h5>
+                                <h2 class="c_party" id="card_party">{{def.party}}</h2>
+                            </div>
+{#                            <label >{{def.symbol}}</label>#}
+{#                            <label >{{ def.name }}</label>#}
+{#                            <label >{{def.party}}</label>#}
                         </div>
-                        <div class="card_desc">
-                            <label class="c_symbol" id="card_symbol">{{def.symbol}}</label>
-                            <label class="c_name" id="card_name">{{ def.name }}</label>
-                            <label class="c_party" id="card_party">{{def.party}}</label>
-                         </div>
                     </div>
                 </div>
             </div>
@@ -62,7 +99,7 @@
               <p class="moad-desc"></p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" onclick="move_page('/posts.html')">관련 뉴스보러가기</button>
+            <button type="button" class="btn btn-primary" onclick="move_page('/posts')">관련 뉴스보러가기</button>
             <button type="button" class="btn btn-primary" id="update_pledge" onclick="update_modal()">공약 업데이트하기</button>
           </div>
           <div class="modal-input">
@@ -80,6 +117,7 @@
     function search_cilck()
         {
             const keyword =$('#input_text').val()
+            console.log(keyword)
             keyword_fillter(keyword);
 
         }
@@ -145,7 +183,24 @@
     })
     function move_page(page_address)
     {
-        location.replace(page_address);
+        total_ads = page_address + "/" + candidate_name
+        location.replace(total_ads);
     }
+
+    function keyword_fillter(keyword)
+{
+    const classnm = document.getElementsByClassName("card_desc");
+    const delarea = document.getElementsByClassName("card_arr");
+
+    for(let i=0; i < classnm.length; i++)
+    {
+        let can_nm = classnm[i].getElementsByClassName('c_name');
+        let test = can_nm[1];
+        if(can_nm[0].innerHTML.toLowerCase().indexOf(keyword) != -1)
+            delarea[i].style.display = "flex";
+        else
+            delarea[i].style.display = "none";
+    }
+}
 </script>
 </html>

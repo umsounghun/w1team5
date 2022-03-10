@@ -1,3 +1,4 @@
+
 from pymongo import MongoClient
 import certifi
 
@@ -7,13 +8,18 @@ client = MongoClient('mongodb+srv://test:sparta@cluster0.e5mxe.mongodb.net/Clust
                      tlsCAFile=ca)
 db = client.dbsparta
 
+
+from flask import Flask, render_template, request, jsonify, redirect, url_for
+app = Flask(__name__)
+
+import time
+
 import jwt
 import datetime
 import hashlib
+
 import schedule
-from flask import Flask, render_template, jsonify, request, redirect, url_for
 import requests
-import time
 from bs4 import BeautifulSoup
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
@@ -21,11 +27,16 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
-
 global doc
 
+
+ca = certifi.where()
 SECRET_KEY = 'SPARTA'
 
+@app.route('/login')
+def login():
+    msg = request.args.get("msg")
+    return render_template('login.html', msg=msg)
 
 @app.route('/')
 def home():
@@ -38,11 +49,6 @@ def home():
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
-
-# @app.route('/login')
-# def login():
-#     msg = request.args.get("msg")
-#     return render_template('login.html', msg=msg)
 
 @app.route('/sign_in', methods=['POST'])
 def sign_in():
@@ -131,11 +137,9 @@ def comment_get():
 @app.route('/posts/<keyword>')
 def posts(keyword):
     go_list = list(db.candidate.find({}, {'_id': False}))
-    can_list = list(db.candidate.find({'name':keyword}))
+    can_list = list(db.candidate.find({"name":keyword}))
     word_receive = request.args.get("word_give")
-
-    print(can_list)
-    return render_template('posts.html', go_list = go_list, list = can_list, word=keyword)
+    return render_template('posts.html', go_list = go_list, list = can_list, word=keyword )
 
 def Crowling():
     headers = {
@@ -223,6 +227,101 @@ def value_post():
     doc = doc_recive
     return jsonify({'msg': 'dict 업데이트 성공'})
 
+@app.route('/membership')
+def membership():
+    return render_template('membership.html')
+
+# @app.route('/')
+# def membership():
+#     token_receive = request.cookies.get('mytoken')
+#     try:
+#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+#         return render_template('index.html')
+#     except jwt.ExpiredSignatureError:
+#         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+#     except jwt.exceptions.DecodeError:
+#         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+
+
+@app.route('/membership')
+def login():
+    msg = request.args.get("msg")
+    return render_template('membership.html', msg=msg)
+
+
+@app.route('/login', methods=['POST'])
+def sign_in():
+    # 로그인
+    return jsonify({'result': 'success'})
+
+
+@app.route('/sign_up/save', methods=['POST'])
+def sign_up():
+    username_receive = request.form['username_give']
+    password_receive = request.form['password_give']
+    password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
+    name_receive = request.form['name_give']
+    gender_receive = request.form['gender_give']
+    email_receive = request.form['email_give']
+    doc = {
+        "username": username_receive,                               # 아이디
+        "password": password_hash,                                  # 비밀번호
+        "name": name_receive,                                       # 성함
+        "gender": gender_receive,                                   # 성별
+        "email": email_receive                                      # 이메일주소
+    }
+    print(doc)
+    #중복체크 로직
+    user_list = list(db.users.find({"name": name_receive, "gender":gender_receive}))
+    len_user = len(user_list)
+    print(len_user)
+    if len_user == 0:
+        db.users.insert_one(doc)
+        msg = 'success'
+    else:
+        msg = 'fail'
+    return jsonify({'result': msg})
+
+
+@app.route('/sign_up/check_dup', methods=['POST'])
+def check_dup():
+    username_receive = request.form['username_give']
+    exists = bool(db.users.find_one({"username": username_receive}))
+    return jsonify({'result': 'success', 'exists': exists})
+
+@app.route("/give_like", methods=["POST"])
+def give_like():
+    token_receive = request.cookies.get('mytoken')
+    try:
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    username = db.users.find_one({"username": payload["id"]})
+    cannum_receive = request.form["cannum_give"]
+    like_receive = request.form["like_give"]
+    doc= {
+        "can_num":cannum_receive,
+        "name":username["username"],
+        "status":like_receive
+    }
+    if like_receive == "like":
+        db.likes.update_one(doc)
+    else:
+        db.likes.delete_one(doc)
+    count = db.likes.count_documents({"cannum": cannum_receive, "username": username["username"]})
+    return jsonify({"result": "success", 'msg': 'updated', "count": count})
+
+@app.route('/posts/like/personal', methods=['POST'])
+def check_like():
+    username_receive = request.form['username_give']
+    can_num_receive = request.form['can_num_give']
+    #좋아요 상태 확인
+    like_list = list(db.like.find({"name": username_receive, "can_num": can_num_receive}, {'_id': False}))
+    cnt_like = len(like_list)
+    if cnt_like > 0:
+        msg = 'success'
+    else :
+        msg = 'fail'
+    return jsonify({'result': msg})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
