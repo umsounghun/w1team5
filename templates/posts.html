@@ -166,54 +166,45 @@
 
 
     <script>
-        {#function posting() {#}
-        {#    $.ajax({#}
-        {#        type: 'POST',#}
-        {#        url: '/posts',#}
-        {#        data: {url_give: url, star_give: star, comment_give: comment},#}
-        {#        success: function (response) {#}
-        {#            alert(response['msg'])#}
-        {#            window.location.reload()#}
-        {#        }#}
-        {#    });#}
-        {#}#}
-            {##}
-            {#function give_like(cannum) {#}
-            {#    console.log(cannum)#}
-            {#    let $a_like = $(`#${cannum} a[aria-label='heart']`)#}
-            {#    let $i_like = $a_like.find("i")#}
-            {#    if ($i_like.hasClass("fa-light")) {#}
-            {#        $.ajax({#}
-            {#            type: "POST",#}
-            {#            url: "/posts/like",#}
-            {#            data: {#}
-            {#                cannum_give: cannum,#}
-            {#                like_give: 0#}
-            {#            },#}
-            {#            success: function (response) {#}
-            {#                console.log("unlike")#}
-            {#                $i_like.addClass("fa-light").removeClass("fa-regular")#}
-            {#                $a_like.find("span.like-num").text(response["count"])#}
-            {#            }#}
-            {#        })#}
-            {#    } else {#}
-            {#        $.ajax({#}
-            {#            type: "POST",#}
-            {#            url: "/posts/like",#}
-            {#            data: {#}
-            {#                cannum_give: cannum,#}
-            {#                like_give: 1#}
-            {#            },#}
-            {#            success: function (response) {#}
-            {#                console.log("like")#}
-            {#                $i_like.addClass("fa-regular").removeClass("fa-light")#}
-            {#                $a_like.find("span.like-num").text(response["count"])#}
-            {#            }#}
-            {#        })#}
-            {##}
-            {#    }#}
-            {
-        #}#}
+
+
+            function give_like(username) {
+                if (username == undefined){
+                alert('좋아요는 로그인 후 가능합니다!')}
+
+                let $a_like = $(`#${cannum} a[aria-label='heart']`)
+                let $i_like = $a_like.find("i")
+                if ($i_like.hasClass("fa-light")) {
+                    $.ajax({
+                        type: "PATCH",
+                        url: `give_heart?username_give=${username}`,
+                        data: {
+                            cannum_give: cannum,
+                            like_give: 0
+                        },
+                        success: function (response) {
+                            console.log("unlike")
+                            $i_like.addClass("fa-light").removeClass("fa-regular")
+                            $a_like.find("span.like-num").text(response["count"])
+                        }
+                    })
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/posts/like",
+                        data: {
+                            cannum_give: cannum,
+                            like_give: 1
+                        },
+                        success: function (response) {
+                            console.log("like")
+                            $i_like.addClass("fa-regular").removeClass("fa-light")
+                            $a_like.find("span.like-num").text(response["count"])
+                        }
+                    })
+
+                }}
+
     </script>
 
 </head>
@@ -238,7 +229,7 @@
         <div id="news_viewer">
             <div class="news_viewer">
                 <div class="new_frame" id="new_frame">
-                    <iframe id="newsview" name="newsview" width=99% height="500" margin=auto src="http://info.nec.go.kr/electioninfo/"></iframe>
+                    <iframe id="newsview" name="newsview" width=99% height="500" margin=auto src="https://news.kbs.co.kr/special/election2022/president/vote_counting.html"></iframe>
                 </div>
 
                 <div class="rightone">
@@ -271,7 +262,7 @@
                     <div class="title_lists">
                         <!--타이틀을 붙여주는 박스-->
                         <div class="title_title">
-                            <h3>각 신문사별 {{ list.name }} 후보의 검색결과를 확인하세요!</h3>
+                            <h3>각 신문사별 {{ word }} 후보의 검색결과를 확인하세요!</h3>
                         </div>
                         <div class="news_brand" id="link">
                             <a href="https://www.joongang.co.kr/search?keyword={{ word }}" target="newsview"
@@ -304,10 +295,7 @@
 
 
 </div>
-<!--사용자가 선택한 기사를 보여주는 박스-->
-<div class="news_viewer">
-    <iframe src="https://news.kbs.co.kr/search/search.do?query=" name="frame_target"
-            style="width:100%; height:400px;"></iframe>
+
 
 
 </div>

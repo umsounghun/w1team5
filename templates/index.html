@@ -61,7 +61,8 @@
               <p class="moad-desc"></p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" onclick="move_page('/posts')">관련 뉴스보러가기</button>
+              {% set who = list.name %}
+            <button type="button" class="btn btn-primary" onclick="move_page('/posts/{{ who }}')">관련 뉴스보러가기</button>
             <button type="button" class="btn btn-primary" id="update_pledge" onclick="update_modal()">공약 업데이트하기</button>
           </div>
           <div class="modal-input">

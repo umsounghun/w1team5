@@ -19,18 +19,18 @@ app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 SECRET_KEY = 'SPARTA'
 
 
-client = MongoClient('mongodb+srv://gotgam:sparta@cluster0.k5twj.mongodb.net/Cluster0?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://test:sparta@cluster0.e5mxe.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
 global doc
 
 @app.route('/posts/<keyword>')
 def posts(keyword):
     go_list = list(db.candidate.find({}, {'_id': False}))
-    can_list = list(db.candidate.find({"name":keyword}))
+    can_list = list(db.candidate.find({'name':keyword}))
     word_receive = request.args.get("word_give")
 
     print(can_list)
-    return render_template('posts.html', go_list = go_list, list = can_list, word=keyword )
+    return render_template('posts.html', go_list = go_list, list = can_list, word=keyword)
 
 def Crowling():
     headers = {
@@ -169,6 +169,21 @@ def check_dup():
     username_receive = request.form['username_give']
     exists = bool(db.users.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
+
+@app.route("/give_heart", methods=["PATCH"])
+def heart_check():
+    username = db.users.find_one({"username": payload["id"]})
+    cannum_receive = request.form["cannum_give"]
+    action_receive = request.form["action_give"]
+    doc= {
+        "cannum":cannum_receive,
+        "username":username,
+        "status":action_receive
+    }
+    if action_receive == "yes":
+        db.likes.update_one(doc)
+    else:
+        db.likes.delete_one(doc)
 
 
 if __name__ == '__main__':
