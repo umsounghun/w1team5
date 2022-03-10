@@ -1,9 +1,28 @@
 // index 페이지 내에서 사용할 함수 정의.
 /**
- * 대선 후보
+ * 키워드 검색
+ * 전달받은 검색어 기준으로 해당 되는 카드만 재구성하도록 작업
  */
-function can_list_crowling(symbol, name, party, image)
+function keyword_fillter(keyword)
 {
+    const classnm = document.getElementsByClassName("card_desc");
+    const delarea = document.getElementsByClassName("card_arr");
 
+    for(let i=0; i < classnm.length; i++)
+    {
+        let can_nm = classnm[i].getElementsByClassName('c_name');
 
+        if(can_nm[0].innerHTML.toLowerCase().indexOf(keyword) != -1)
+            delarea[i].style.display = "flex";
+        else
+            delarea[i].style.display = "none";
+    }
+}
+/**
+ * 모달창 생성
+ * 전달받은 파라미터로 구성된 모달창 만들기.
+ */
+function create_modal(can_name)
+{
+    
 }

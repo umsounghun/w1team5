@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <title>좋아요테스트html입니다.</title>
+
+    <script>
+<!--      function give_like(cannum) 마지막줄때문에 필요없는것아닌지?  -->
+        // function show_like() {
+        //     $.ajax({
+        //         type: "GET",
+        //         url: "/posts/like",
+        //         data: {},
+        //         success: function (response) {
+        //         }
+        //     })
+        // }
+
+        function give_like(cannum) {
+            console.log(cannum)
+            let $a_like = $(`#${cannum} a[aria-label='heart']`)
+            let $i_like = $a_like.find("i")
+            if ($i_like.hasClass("fa-light")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/posts/like",
+                    data: {
+                        cannum_give: cannum,
+                        like_give: 0
+                    },
+                    success: function (response) {
+                        console.log("unlike")
+                        $i_like.addClass("fa-light").removeClass("fa-regular")
+                        $a_like.find("span.like-num").text(response["count"])
+                    }
+                })
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/posts/like",
+                    data: {
+                        cannum_give: cannum,
+                        like_give: 1
+                    },
+                    success: function (response) {
+                        console.log("like")
+                        $i_like.addClass("fa-regular").removeClass("fa-light")
+                        $a_like.find("span.like-num").text(response["count"])
+                    }
+                })
+
+            }
+        }
+    </script>
+</head>
+<body>
+<nav class="level is-mobile">
+    <div class="level-left">
+        <a class="level-item is-sparta" aria-label="heart"
+           onclick="give_like('', 'heart')">
+            <span class="icon is-small"><i class="fa fa-heart" aria-hidden="true"></i></span>&nbsp;
+            <span class="like-num">2.7k</span>
+        </a>
+    </div>
+
+</nav>
+</body>
+</html>
