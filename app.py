@@ -135,16 +135,6 @@ def membership():
 #         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 
-@app.route('/membership')
-def login():
-    msg = request.args.get("msg")
-    return render_template('membership.html', msg=msg)
-
-
-@app.route('/login', methods=['POST'])
-def sign_in():
-    # 로그인
-    return jsonify({'result': 'success'})
 
 
 @app.route('/sign_up/save', methods=['POST'])
