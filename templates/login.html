@@ -90,6 +90,7 @@
                     if (response['result'] == 'success') {
                         $.cookie('mytoken', response['token'], {path: '/'});
                         window.location.replace("/index")
+                        alert(response['msg'])
                     } else {
                         alert(response['msg'])
                     }

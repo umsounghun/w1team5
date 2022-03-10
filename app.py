@@ -58,7 +58,7 @@ def sign_in():
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
 
-        return jsonify({'result': 'success', 'token': token})
+        return jsonify({'result': 'success', 'token': token, 'msg':username_receive+'님 환영합니다!'})
 
     # 찾지 못하면
     else:
