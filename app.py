@@ -170,20 +170,25 @@ def check_dup():
     exists = bool(db.users.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
-@app.route("/give_heart", methods=["PATCH"])
-def heart_check():
+@app.route("/give_like", methods=["POST"])
+def give_like():
+    token_receive = request.cookies.get('mytoken')
+    try:
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     username = db.users.find_one({"username": payload["id"]})
     cannum_receive = request.form["cannum_give"]
-    action_receive = request.form["action_give"]
+    like_receive = request.form["like_give"]
     doc= {
-        "cannum":cannum_receive,
-        "username":username,
-        "status":action_receive
+        "can_num":cannum_receive,
+        "name":username["username"],
+        "status":like_receive
     }
-    if action_receive == "yes":
+    if like_receive == "like":
         db.likes.update_one(doc)
     else:
         db.likes.delete_one(doc)
+    count = db.likes.count_documents({"cannum": cannum_receive, "username": username["username"]})
+    return jsonify({"result": "success", 'msg': 'updated', "count": count})
 
 
 if __name__ == '__main__':
