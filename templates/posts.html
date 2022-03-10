@@ -12,82 +12,308 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
 
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR&display=swap"
+          rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Nanum+Gothic&display=swap"
+          rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Nanum+Gothic&display=swap"
+          rel="stylesheet">
+
+
+    <title>후보별페이지</title>
+
 
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     <title>뉴스</title>
 
     <style>
+        .index_header {
+            width: 100%;
+            height: 20%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            background-color: #7D2AE2;
+        }
+
+        .index_header > button {
+            margin-top: 5px;
+            margin-right: 10px;
+            margin-bottom: 5px;
+            font-family: 'Black Han Sans', sans-serif;
+            font-size: 1.3em;
+        }
+
+        .index_header > label {
+            margin-top: 5px;
+            margin-left: 10px;
+            color: aliceblue;
+            font-family: 'Black Han Sans', sans-serif;
+            font-size: 1.3em;
+        }
+
         .news_body {
             background-color: green;
             width: 95%;
             max-width: 1200px;
-            padding: 20px;
+
             margin: auto;
+            padding-top: 20px;
+
         }
 
-        .titlel_lists {
-            background-color: yellow;
+        .navi {
+            background-color: red;
             width: 95%;
-            max-width: 1200px;
-            padding: 20px;
-            margin: 20px auto;
+            margin: 20px;
+            display: flex;
+            padding: 5px;
+        }
+
+        .navi > button {
+            margin: auto;
+
+            padding: 10px;
+            margin: auto;
         }
 
         .news_viewer {
             background-color: orange;
             width: 95%;
             max-width: 1200px;
-            padding: 20px;
-            margin: 20px auto;
+
+            padding: 10px;
+            margin: auto;
         }
 
-        .news_titlel {
-            background-color: skyblue;
-            width: 95%;
+        .new_frame {
+            background-color: whitesmoke;
+            width: 70%;
+            float: left;
+        }
+
+        .rightone {
+            background-color: lightpink;
+            float: left;
+            width: 30%;
+            font-size: 20px;
+            font-family: 'Nanum Brush Script', cursive;
+            font-family: 'Nanum Gothic', sans-serif;
+
+        }
+
+        .info {
+            background-color: mediumpurple;
+            margin: 5px;
+            height: 300px;
+        }
+
+        .title_title {
             max-width: 1200px;
+            padding: 10px;
+            margin: 5px;
+        }
+
+        .title_lists {
+            background-color: yellow;
+            max-width: 1200px;
+            padding: 10px;
+            margin: 5px;
+        }
+
+
+        .news_brand {
+
             padding: 20px;
             margin: 20px auto;
         }
-    </style>
-    <script>
-        /*포스트리스트에서 선택한 대선후보의 이름이 포함된 타이틀을 포스팅 해 줍니다.*/
-        /* a_list는 임의의 리스트로 기사 크롤링 리스트를 저장 되었을 경우 적용이 된다. */
-        let a_list = ['홍길동의 제빵교실', '홍길동의 택권도교실', '이가영의 안전운전교실', '김철수의 음악교실']
 
-        for (let i = 0; i < a_list.length; i++) {
-            if (a_list[i].includes("홍길동")) {
-                console.log(a_list[i])
-            }
+        .info > .photo {
+            float: left;
+            background-color: yellowgreen;
+            width: 60%;
+            height: 190px;
+            margin: 5px;
         }
 
+        .info > .brief {
+            float: left;
+            background-color: aqua;
+            width: 30%;
+            margin: 5px;
+            height: 250px;
+        }
+
+
+    </style>
+
+
+    <script>
+        {#function posting() {#}
+        {#    $.ajax({#}
+        {#        type: 'POST',#}
+        {#        url: '/posts',#}
+        {#        data: {url_give: url, star_give: star, comment_give: comment},#}
+        {#        success: function (response) {#}
+        {#            alert(response['msg'])#}
+        {#            window.location.reload()#}
+        {#        }#}
+        {#    });#}
+        {#}#}
+            {##}
+            {#function give_like(cannum) {#}
+            {#    console.log(cannum)#}
+            {#    let $a_like = $(`#${cannum} a[aria-label='heart']`)#}
+            {#    let $i_like = $a_like.find("i")#}
+            {#    if ($i_like.hasClass("fa-light")) {#}
+            {#        $.ajax({#}
+            {#            type: "POST",#}
+            {#            url: "/posts/like",#}
+            {#            data: {#}
+            {#                cannum_give: cannum,#}
+            {#                like_give: 0#}
+            {#            },#}
+            {#            success: function (response) {#}
+            {#                console.log("unlike")#}
+            {#                $i_like.addClass("fa-light").removeClass("fa-regular")#}
+            {#                $a_like.find("span.like-num").text(response["count"])#}
+            {#            }#}
+            {#        })#}
+            {#    } else {#}
+            {#        $.ajax({#}
+            {#            type: "POST",#}
+            {#            url: "/posts/like",#}
+            {#            data: {#}
+            {#                cannum_give: cannum,#}
+            {#                like_give: 1#}
+            {#            },#}
+            {#            success: function (response) {#}
+            {#                console.log("like")#}
+            {#                $i_like.addClass("fa-regular").removeClass("fa-light")#}
+            {#                $a_like.find("span.like-num").text(response["count"])#}
+            {#            }#}
+            {#        })#}
+            {##}
+            {#    }#}
+            {
+        #}#}
     </script>
 
 </head>
 <body>
+<div class="index_header">
+    <label>누구 뽑지?</label>
+    <h3>받은 단어는 {{ word }}</h3>
+    <button type="button" class="btn btn-success">로그인</button>
+</div>
 <!-- 전체 박스 -->
 <div class="news_body">
-    <!-- 타이틀 리스트 박스 -->
-    <div class="titlel_lists">
-        <!--타이틀을 붙여주는 박스-->
-        <div class="news_titlel">
-            <li>
-                <a href="https://news.naver.com/election/president2022/news">타이틀 뉴스입니다</a>
-            </li>
-            <li>
-                <a href="https://n.news.naver.com/article/469/0000662290">타이틀 뉴스입니다</a>
-            </li>
-            <li>
-                <a href="https://news.naver.com/election/president2022/news">타이틀 뉴스입니다</a>
-            </li>
-        </div>
+
+
+    <div class="navi">
+{% for who in go_list %}
+        <button type="button" class="btn btn-outline-light" onclick="window.location.href='/posts/{{ who.name }}'">{{who.symbol}}</button>
+{% endfor %}
+
     </div>
+
     <!--사용자가 선택한 기사를 보여주는 박스-->
-    <div class="news_viewer">
-        <iframe width="800" height="500" src="http://www.google.com?callback=JSONP_CALLBACK">관련 주소를 띄어줄 수 있는 방법을
-            찾아봅시다.
-        </iframe>
-    </div>
+        <div id="news_viewer">
+            <div class="news_viewer">
+                <div class="new_frame" id="new_frame">
+                    <iframe id="newsview" name="newsview" width=99% height="500" margin=auto src=""></iframe>
+                </div>
+
+                <div class="rightone">
+
+                    <div class="info">
+                        <div class="photo">
+                            <img src="{{ list[0].image }}">
+                        </div>
+                        <nav class="level is-mobile">
+                            <div class="level-left">
+                                <a class="level-item is-sparta" aria-label="heart"
+                                   onclick="give_like('', 'heart')">
+                                    <span class="icon is-small"><i class="fa fa-heart" aria-hidden="true"></i></span>&nbsp;
+                                    <span class="like-num"></span>
+                                </a>
+                            </div>
+
+                        </nav>
+                        <div class="brief">
+                            <p> {{ list[0].symbol }} </p>
+                            <p>이름</p>
+                            {{ word }}
+                            <p></p>
+                            <p>소속</p>
+                            <p>{{ list[0].party }}</p>
+                        </div>
+                    </div>
+
+                    <!-- 타이틀 리스트 박스 -->
+                    <div class="title_lists">
+                        <!--타이틀을 붙여주는 박스-->
+                        <div class="title_title">
+                            <h3>각 신문사별 {{ list.name }} 후보의 검색결과를 확인하세요!</h3>
+                        </div>
+                        <div class="news_brand" id="link">
+                            <a href="https://www.joongang.co.kr/search?keyword={{ word }}" target="newsview"
+                               onclick="newsview.location.href='https://www.joongang.co.kr/search?keyword={{ word }}'">
+                                <button>중앙</button>
+                            </a>
+                            <a href="https://www.donga.com/news/search?query={{ word }} " target="newsview"
+                               onclick="newsview.location.href='https://www.donga.com/news/search?query={{ word }}'">
+                                <button>동아</button>
+                            </a>
+                            <a href="https://search.khan.co.kr/search.html?sect=1&path=1&q={{ word }} " target="newsview"
+                               onclick="newsview.location.href='https://search.khan.co.kr/search.html?sect=1&path=1&q={{ word }}'">
+                                <button>경향</button>
+                            </a>
+                            <a href="https://imnews.imbc.com/more/search/?search_kwd={{ word }} " target="newsview"
+                               onclick="newsview.location.href='https://imnews.imbc.com/more/search/?search_kwd={{ word }}'">
+                                <button>mbc</button>
+                            </a>
+                            <a href="https://jtbc.joins.com/search?term={{ word }} " target="newsview"
+                               onclick="newsview.location.href='https://jtbc.joins.com/search?term={{ word }}'">
+                                <button>jtbc</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+</div>
+<!--사용자가 선택한 기사를 보여주는 박스-->
+<div class="news_viewer">
+    <iframe src="https://news.kbs.co.kr/search/search.do?query=" name="frame_target"
+            style="width:100%; height:400px;"></iframe>
+
+
+</div>
 </div>
 
+</div>
 </body>
 </html>
+
