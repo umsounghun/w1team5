@@ -1,37 +1,29 @@
-
-from pymongo import MongoClient
-import certifi
-
-ca = certifi.where()
-
-client = MongoClient('mongodb+srv://test:sparta@cluster0.e5mxe.mongodb.net/Cluster0?retryWrites=true&w=majority',
-                     tlsCAFile=ca)
-db = client.dbsparta
-
-
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 app = Flask(__name__)
 
 import time
-
 import jwt
+import hashlib
 import datetime
 import hashlib
 
 import schedule
 import requests
+
 from bs4 import BeautifulSoup
+from pymongo import MongoClient
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
-global doc
 
-
-ca = certifi.where()
 SECRET_KEY = 'SPARTA'
+
+client = MongoClient('mongodb+srv://test:sparta@cluster0.e5mxe.mongodb.net/Cluster0?retryWrites=true&w=majority')
+db = client.dbsparta
+global doc
 
 @app.route('/login')
 def login():
@@ -43,12 +35,13 @@ def home():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-
-        return render_template('login.html')
+        user_info = db.users.find_one({"username": payload["id"]})
+        return render_template('posts.html', user_info=user_info)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+
 
 @app.route('/sign_in', methods=['POST'])
 def sign_in():
@@ -67,7 +60,6 @@ def sign_in():
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
 
         return jsonify({'result': 'success', 'token': token})
-
     # 찾지 못하면
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
@@ -290,25 +282,25 @@ def check_dup():
     exists = bool(db.users.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
-@app.route("/give_like", methods=["POST"])
-def give_like():
-    token_receive = request.cookies.get('mytoken')
-    try:
-    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    username = db.users.find_one({"username": payload["id"]})
-    cannum_receive = request.form["cannum_give"]
-    like_receive = request.form["like_give"]
-    doc= {
-        "can_num":cannum_receive,
-        "name":username["username"],
-        "status":like_receive
-    }
-    if like_receive == "like":
-        db.likes.update_one(doc)
-    else:
-        db.likes.delete_one(doc)
-    count = db.likes.count_documents({"cannum": cannum_receive, "username": username["username"]})
-    return jsonify({"result": "success", 'msg': 'updated', "count": count})
+# @app.route("/give_like", methods=["POST"])
+# def give_like():
+#     token_receive = request.cookies.get('mytoken')
+#     try:
+#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+#         username = db.users.find_one({"username": payload["id"]})
+#         cannum_receive = request.form["cannum_give"]
+#         like_receive = request.form["like_give"]
+#         doc= {
+#             "can_num":cannum_receive,
+#             "name":username["username"],
+#             "status":like_receive
+#         }
+#         if like_receive == "like":
+#             db.likes.update_one(doc)
+#         else:
+#             db.likes.delete_one(doc)
+#         count = db.likes.count_documents({"cannum": cannum_receive, "username": username["username"]})
+#         return jsonify({"result": "success", 'msg': 'updated', "count": count})
 
 @app.route('/posts/like/personal', methods=['POST'])
 def check_like():
@@ -322,6 +314,7 @@ def check_like():
     else :
         msg = 'fail'
     return jsonify({'result': msg})
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

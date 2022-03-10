@@ -11,7 +11,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="/static/js/index.js"></script>
-
     <!-- Bulma CSS 링크 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 
@@ -70,16 +69,25 @@
             <div class="card_arr" onclick="call_modal('{{ def.symbol }}','{{ def.name }}','{{ def.party }}')">
                 <div class="card_body">
                     <div class="card_element">
-                        <div class="card h-100">
-                            <img class="card-img-top" id="card_image" src="{{ def.image }}">
-                            <div class="card_desc">
-                                <h2 class="c_symbol" id="card_symbol">{{def.symbol}}</h2>
-                                <h5 class="c_name" id="card_name"><strong>{{ def.name }}</strong></h5>
-                                <h2 class="c_party" id="card_party">{{def.party}}</h2>
+                        <div class="card">
+                          <div class="card-image">
+                            <figure class="image is-4by4">
+                              <img src="{{ def.image }}" alt="Placeholder image">
+                            </figure>
+                          </div>
+                          <div class="card-content">
+                            <div class="media">
+                              <div class="media-left">
+                                <figure class="image is-48x48">
+                                  <img src="{{ def.image }}" alt="Placeholder image">
+                                </figure>
+                              </div>
+                              <div class="media-content">
+                                <p class="title is-4">{{ def.name }}</p>
+                                <p class="subtitle is-6">{{def.symbol}} {{def.party}}</p>
+                              </div>
                             </div>
-{#                            <label >{{def.symbol}}</label>#}
-{#                            <label >{{ def.name }}</label>#}
-{#                            <label >{{def.party}}</label>#}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -116,6 +124,7 @@
     console.log(candidate_list);
     function search_cilck()
         {
+            console.log(candidate_list);
             const keyword =$('#input_text').val()
             console.log(keyword)
             keyword_fillter(keyword);
@@ -189,13 +198,13 @@
 
     function keyword_fillter(keyword)
 {
-    const classnm = document.getElementsByClassName("card_desc");
+    const classnm = document.getElementsByClassName("media-content");
     const delarea = document.getElementsByClassName("card_arr");
 
     for(let i=0; i < classnm.length; i++)
     {
-        let can_nm = classnm[i].getElementsByClassName('c_name');
-        let test = can_nm[1];
+        let can_nm = classnm[i].getElementsByClassName('title is-4');
+
         if(can_nm[0].innerHTML.toLowerCase().indexOf(keyword) != -1)
             delarea[i].style.display = "flex";
         else
