@@ -1,8 +1,9 @@
-*{
-    /*font-family: 'Black Han Sans', sans-serif;*/
+* {
+    font-family: 'Hahmlet', serif;
     /*font-size: 1.3em;*/
 }
-.index_header{
+
+.index_header {
     width: 100%;
     height: 20%;
     display: flex;
@@ -11,19 +12,19 @@
     background-color: #7D2AE2;
 }
 
-.index_header > button{
+.index_header > button {
     margin-top: 5px;
     margin-right: 10px;
     margin-bottom: 5px;
 }
 
-.index_header > label{
+.index_header > label {
     margin-top: 5px;
     margin-left: 10px;
     color: aliceblue;
 }
 
-.index_Serach{
+.index_Serach {
     width: 100%;
     height: 400px;
     background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://w.namu.la/s/2fa1e6cb3bfe3ed136f2856ed4db1ccbc7e0ddae4a6419be31756ab329b05bd5e3f46050da368c8586e7acdb0a1d0284ea068fea638290a18cadb122202196b0380b088506e34a54de3b89cbcc617873');
@@ -38,7 +39,8 @@
     justify-content: center;
     padding: 5px;
 }
-.index_Serach > input[type=text]{
+
+.index_Serach > input[type=text] {
     margin-left: 10px;
     margin-right: 10px;
     width: 40%;
@@ -48,7 +50,8 @@
     border-radius: 10px;
     border: black solid 2px;
 }
-.index_Serach > select{
+
+.index_Serach > select {
     width: 10%;
     height: 50px;
     position: relative;
@@ -56,7 +59,8 @@
     border-radius: 10px;
     border: black solid 2px;
 }
-.index_Serach > button{
+
+.index_Serach > button {
     width: 5%;
     height: 50px;
     position: relative;
@@ -64,10 +68,12 @@
     border-radius: 10px;
     border: black solid 2px;
 }
-.card{
+
+.card {
     width: 100%;
 }
-.card_arr{
+
+.card_arr {
     /*현재 영역에서 FLEX 컨테이너 사용*/
     display: flex;
     /*아이템 배치는 왼쪽 기준 가로 형태*/
@@ -77,7 +83,8 @@
     /*수직 축 방향 정렬*/
     align-items: center;
 }
-.card_body{
+
+.card_body {
     /*아이템이 컨테이너에서 늘어날때 맞춰서 지정된 비율로 나누어지도록 결정하는 속성*/
     flex-grow: 1;
     /*아이템이 컨테이너에서 줄어들때 맞춰서 지정된 비율로 나누어지도록 결정하는 속성*/
@@ -86,31 +93,52 @@
     flex-basis: 0;
 
 }
-.card_element{
+
+.card_element {
     display: flex;
     flex-direction: column;
+    border: #aaa outset 1px;
+    border-radius: 10px;
+}
 
+.card_img {
+    margin: auto;
 }
-.card_img{
-    margin:auto;
-}
-.card_img > img{
+
+.card_img > img {
     width: 100%;
     height: 500px;
     object-fit: fill;
 }
-.card_desc{
-    background-color: aqua;
-    font-size: 0.2em;
+
+.card_desc {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    height: 50px;
 }
-.modal-input{
+
+.modal-input {
     display: flex;
     flex-direction: column;
 }
-.desc_update{
+
+.desc_update {
     width: 100%;
     height: 200px;
+}
+
+.c_symbol {
+    margin-left: 10px;
+    font-size: 1.5em;
+}
+
+.c_party {
+    margin-right: 10px;
+    font-size: 1.5em;
+}
+
+.c_name {
+    font-size: 2em;
 }

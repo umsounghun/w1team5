@@ -4,148 +4,218 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Hahmlet:wght@500&family=Noto+Sans+KR&display=swap"
+          rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/static/css/index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="/static/js/index.js"></script>
+    <!-- Bulma CSS 링크 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 
     <title>누구 뽑지?</title>
-    <script >
+    <script>
         $(document).ready(function () {
         });
     </script>
 
 </head>
 <body>
-    <div class="index_header">
-        <label>누구 뽑지?</label>
-        <button type="button" class="btn btn-success">로그인</button>
-        <button type="button" class="btn btn-success">로그아웃</button>
-    </div>
-    <div class="index_Serach">
-        <select></select>
-        <input type="text" onkeypress="enter_event(event)" id="input_text">
-        <button type="button" class="btn btn-secondary" onclick="search_cilck()">검색</button>
-    </div>
-    <div id="card">
-        <div class="row row-cols-1 row-cols-md-5 g-4" id="card-box">
-            {% for def in list %}
-            <div class="card_arr" onclick="call_modal('{{ def.symbol }}','{{ def.name }}','{{ def.party }}')">
-                <div class="card_body">
-                    <div class="card_element">
-                        <div class="card_img">
-                             <img id="card_image" src="{{ def.image }}">
-                        </div>
-                        <div class="card_desc">
-                            <label class="c_symbol" id="card_symbol">{{def.symbol}}</label>
-                            <label class="c_name" id="card_name">{{ def.name }}</label>
-                            <label class="c_party" id="card_party">{{def.party}}</label>
-                         </div>
+<section class="hero is-info is-medium">
+    <div class="hero-head">
+        <nav class="navbar">
+            <div class="container">
+                <div id="navbarMenuHeroB" class="navbar-menu">
+                    <div class="navbar-end">
+                        <a class="navbar-item is-active">
+                            Home
+                        </a>
+                        <a class="navbar-item">
+                            회원가입
+                        </a>
+                        <span class="navbar-item">
+              <a class="button is-info is-inverted">
+                <span style="font-weight: bold" onclick="logout()">로그아웃</span>
+              </a>
+            </span>
                     </div>
                 </div>
             </div>
-            {% endfor %}
+        </nav>
+    </div>
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <p class="title">
+                누구 뽑지?
+            </p>
+            <p class="subtitle">
+                20대 대통령 대선후보 공약 및 뉴스 조회
+            </p>
         </div>
     </div>
+    <div class="hero-foot">
+        <div class="tabs is-boxed is-fullwidth">
+            <div class="container" style="margin-bottom: 10px">
+                <input class="input" type="text" placeholder="Text input" onkeypress="enter_event(event)"
+                       id="input_text">
+                <button class="button is-white are-medium" onclick="search_cilck()">검색</button>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="card">
+    <div class="row row-cols-1 row-cols-md-5 g-4" id="card-box">
+        {% for def in list %}
+            <div class="card_arr" onclick="call_modal('{{ def.symbol }}','{{ def.name }}','{{ def.party }}')">
+                <div class="card_body">
+                    <div class="card_element">
+                        <div class="card">
+                            <div class="card-image">
+                                <figure class="image is-4by4">
+                                    <img src="{{ def.image }}" alt="Placeholder image">
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-48x48">
+                                            <img src="{{ def.image }}" alt="Placeholder image">
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4">{{ def.name }}</p>
+                                        <p class="subtitle is-6">{{ def.symbol }} {{ def.party }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 
-    <div class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
-      <div class="modal-dialog modal-lg">
+<div class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modal-titles"></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="close_modal()"></button>
-          </div>
-          <div class="modal-body">
-              <p class="moad-desc"></p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" onclick="move_page('/posts')">관련 뉴스보러가기</button>
-            <button type="button" class="btn btn-primary" id="update_pledge" onclick="update_modal()">공약 업데이트하기</button>
-          </div>
-          <div class="modal-input">
-              <textarea type="text" class="desc_update" id="in_text"></textarea>
-              <button type="button" class="btn btn-primary" id="save_pledge" >공약 저장</button>
-          </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-titles"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        onclick="close_modal()"></button>
+            </div>
+            <div class="modal-body">
+                <p class="moad-desc"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="move_page('/posts')">관련 뉴스보러가기</button>
+                <button type="button" class="btn btn-primary" id="update_pledge" onclick="update_modal()">공약 업데이트하기
+                </button>
+            </div>
+            <div class="modal-input">
+                <textarea type="text" class="desc_update" id="in_text"></textarea>
+                <button type="button" class="btn btn-primary" id="save_pledge">공약 저장</button>
+            </div>
         </div>
-      </div>
     </div>
+</div>
 </body>
 <script>
     let candidate_name;
     const candidate_list = "{{ list }}";
     console.log(candidate_list);
-    function search_cilck()
-        {
-            const keyword =$('#input_text').val()
-            keyword_fillter(keyword);
 
-        }
-    function enter_event(keyin)
-    {
+    function search_cilck() {
+        console.log(candidate_list);
+        const keyword = $('#input_text').val()
+        console.log(keyword)
+        keyword_fillter(keyword);
+
+    }
+
+    function enter_event(keyin) {
         let keyword = document.getElementById("input_text").value;
         //엔터키를 눌렀는지 확인.
-        if(keyin.keyCode == 13)
-        {
+        if (keyin.keyCode == 13) {
             keyword_fillter(keyword);
         }
     }
-    function call_modal(can_symbol,can_name,can_party)
-    {
+
+    function call_modal(can_symbol, can_name, can_party) {
         $('#update_pledge').hide();
         candidate_name = can_name;
         $('.moad-desc').empty();
         document.getElementById("in_text").value = null;
         $('.modal').fadeIn();
-        $('.modal-title').text(can_symbol+ " " + can_party + " " +can_name + "대선공약정보");
+        $('.modal-title').text(can_symbol + " " + can_party + " " + can_name + "대선공약정보");
         $('.modal-input').hide();
         $.ajax({
-                type: 'GET',
-                url: '/detail',
-                data: {},
-                success: function (response) {
-                    let row = response['can_detail'];
-                    for(let i=0; i < row.length; i++)
-                    {
-                        if(can_name == row[i]['name'])
-                        {
-                           let desc =  row[i]['detail'].toString();
-                           $('.moad-desc').append(desc);
-                        }
-
+            type: 'GET',
+            url: '/detail',
+            data: {},
+            success: function (response) {
+                let row = response['can_detail'];
+                for (let i = 0; i < row.length; i++) {
+                    if (can_name == row[i]['name']) {
+                        let desc = row[i]['detail'].toString();
+                        $('.moad-desc').append(desc);
                     }
+
                 }
-            })
+            }
+        })
     }
-    function close_modal()
-    {
+
+    function close_modal() {
         $('.modal').fadeOut();
     }
-    function update_modal()
-    {
+
+    function update_modal() {
         console.log('업데이트 모달');
         $('.modal-input').show();
     }
 
-    $('#save_pledge').click(function (){
+    $('#save_pledge').click(function () {
         console.log('공약저장 클릭')
         let name = candidate_name;
         let detail = $('.desc_update').val();
-         $.ajax({
-                type: "POST",
-                url: "/detail",
-                data: {name_give: name, detail_give: detail},
-                success: function (response) {
-                    alert(response["msg"])
-                }
-            });
+        $.ajax({
+            type: "POST",
+            url: "/detail",
+            data: {name_give: name, detail_give: detail},
+            success: function (response) {
+                alert(response["msg"])
+            }
+        });
         $('.modal').fadeOut();
     })
-    function move_page(page_address)
-    {
-        location.replace(page_address);
+
+    function move_page(page_address) {
+        total_ads = page_address + "/" + candidate_name
+        location.replace(total_ads);
     }
+
+    function keyword_fillter(keyword) {
+        const classnm = document.getElementsByClassName("media-content");
+        const delarea = document.getElementsByClassName("card_arr");
+
+        for (let i = 0; i < classnm.length; i++) {
+            let can_nm = classnm[i].getElementsByClassName('title is-4');
+
+            if (can_nm[0].innerHTML.toLowerCase().indexOf(keyword) != -1)
+                delarea[i].style.display = "flex";
+            else
+                delarea[i].style.display = "none";
+        }
+    }
+    function logout() {
+            $.removeCookie('mytoken',{path:'/'});
+            alert('로그아웃!')
+            window.location.href='/'
+
+        }
 </script>
 </html>
