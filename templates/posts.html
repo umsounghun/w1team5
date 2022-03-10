@@ -164,56 +164,37 @@
 
     </style>
 
-
     <script>
-        {#function posting() {#}
-        {#    $.ajax({#}
-        {#        type: 'POST',#}
-        {#        url: '/posts',#}
-        {#        data: {url_give: url, star_give: star, comment_give: comment},#}
-        {#        success: function (response) {#}
-        {#            alert(response['msg'])#}
-        {#            window.location.reload()#}
-        {#        }#}
-        {#    });#}
-        {#}#}
-            {##}
-            {#function give_like(cannum) {#}
-            {#    console.log(cannum)#}
-            {#    let $a_like = $(`#${cannum} a[aria-label='heart']`)#}
-            {#    let $i_like = $a_like.find("i")#}
-            {#    if ($i_like.hasClass("fa-light")) {#}
-            {#        $.ajax({#}
-            {#            type: "POST",#}
-            {#            url: "/posts/like",#}
-            {#            data: {#}
-            {#                cannum_give: cannum,#}
-            {#                like_give: 0#}
-            {#            },#}
-            {#            success: function (response) {#}
-            {#                console.log("unlike")#}
-            {#                $i_like.addClass("fa-light").removeClass("fa-regular")#}
-            {#                $a_like.find("span.like-num").text(response["count"])#}
-            {#            }#}
-            {#        })#}
-            {#    } else {#}
-            {#        $.ajax({#}
-            {#            type: "POST",#}
-            {#            url: "/posts/like",#}
-            {#            data: {#}
-            {#                cannum_give: cannum,#}
-            {#                like_give: 1#}
-            {#            },#}
-            {#            success: function (response) {#}
-            {#                console.log("like")#}
-            {#                $i_like.addClass("fa-regular").removeClass("fa-light")#}
-            {#                $a_like.find("span.like-num").text(response["count"])#}
-            {#            }#}
-            {#        })#}
-            {##}
-            {#    }#}
-            {
-        #}#}
+        $(document).ready(function () {
+            like_chk();
+        });
+
+        function like_chk()
+        {
+            //유저 ID 정보 확인
+            let username;
+            if(localStorage.getItem('username'))
+                 username = localStorage.getItem('username');
+            username = '개구리';
+            let symbol = {{ list[0].symbol }};
+            symbol = symbol.replace(/[^0-9]/g, '');
+
+            $.ajax({
+                type: "POST",
+                url: "/posts/like/personal",
+                data: {
+                    username_give: username,
+                    can_num_give : symbol
+                },
+                success: function (response) {
+                    const msg = response['result']
+                    if(msg == 'success')
+                        console.log('좋아요');
+                    else
+                        console.log('좋아요 취소');
+                }
+            })
+        }
     </script>
 
 </head>

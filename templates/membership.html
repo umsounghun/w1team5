@@ -91,10 +91,9 @@
             let password = $("#input-password").val()
             let password2 = $("#input-password2").val()
             let name = $("#input-name").val()
-            let gender = $("#input-gender").val()
+            let gender = $("input[name='exampleRadios']:checked").val()
             let email = $("#input-email").val()
             console.log(username, password, password2, name, gender, email)
-
 
             if ($("#help-id").hasClass("is-danger")) {
                 alert("아이디를 다시 확인해주세요.")
@@ -131,11 +130,18 @@
                 url: "/sign_up/save",
                 data: {
                     username_give: username,
-                    password_give: password
+                    password_give: password,
+                    name_give : name,
+                    gender_give : gender,
+                    email_give: email
                 },
                 success: function (response) {
-                    alert("회원가입을 축하드립니다!")
-                    window.location.replace("/login")
+                    let result = response['result'];
+                    if(result == 'success')
+                        alert("회원가입을 축하드립니다!")
+                    else
+                        alert("회원가입 실패 동일한 사람이 존재합니다.")
+                    {#window.location.replace("/login")#}
                 }
             });
 
@@ -151,8 +157,6 @@
             var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
             return regExp.test(asValue);
         }
-
-        {#아이디 체크#}
 
         function check_dup() {
             let username = $("#input-username").val()
@@ -223,19 +227,7 @@
                                 사용
                                 가능합니다.</p>
                         </div>
-
-
                     </div>
-                    <div id="div-sign-in-or-up" class="has-text-centered">
-                        <nav class="level is-mobile">
-                            <button class="level-item button is-sparta" onclick="sign_in()">
-                                로그인
-                            </button>
-
-                        </nav>
-                        <hr>
-                    </div>
-
                     <div id="sign-up-box" class="">
                         <div class="mb-5">
                             <div class="field">

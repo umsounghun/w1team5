@@ -19,7 +19,7 @@ app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 SECRET_KEY = 'SPARTA'
 
 
-client = MongoClient('mongodb+srv://gotgam:sparta@cluster0.k5twj.mongodb.net/Cluster0?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://test:sparta@cluster0.e5mxe.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
 global doc
 
@@ -28,8 +28,6 @@ def posts(keyword):
     go_list = list(db.candidate.find({}, {'_id': False}))
     can_list = list(db.candidate.find({"name":keyword}))
     word_receive = request.args.get("word_give")
-
-    print(can_list)
     return render_template('posts.html', go_list = go_list, list = can_list, word=keyword )
 
 def Crowling():
@@ -122,19 +120,6 @@ def value_post():
 def membership():
     return render_template('membership.html')
 
-# @app.route('/')
-# def membership():
-#     token_receive = request.cookies.get('mytoken')
-#     try:
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-
-#         return render_template('index.html')
-#     except jwt.ExpiredSignatureError:
-#         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
-#     except jwt.exceptions.DecodeError:
-#         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
-
-
 @app.route('/membership')
 def login():
     msg = request.args.get("msg")
@@ -151,17 +136,41 @@ def sign_in():
 def sign_up():
     username_receive = request.form['username_give']
     password_receive = request.form['password_give']
+    name_receive = request.form['name_give']
+    gender_receive = request.form['gender_give']
+    email_receive = request.form['email_give']
+    #해시함수를 통해 암호화
     password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
     doc = {
         "username": username_receive,                               # 아이디
         "password": password_hash,                                  # 비밀번호
-        "profile_name": username_receive,                           # 프로필 이름 기본값은 아이디
-        "profile_pic": "",                                          # 프로필 사진 파일 이름
-        "profile_pic_real": "profile_pics/profile_placeholder.png", # 프로필 사진 기본 이미지
-        "profile_info": ""                                          # 프로필 한 마디
+        "profile_name": name_receive,                               # 이름
+        "gender": gender_receive,                                   # 성별
+        "email": email_receive,                                     # 이메일
+        "like_1": 0,                                                # 기호1번 좋아요
+        "like_2": 0,                                                # 기호2번 좋아요
+        "like_3": 0,                                                # 기호3번 좋아요
+        "like_5": 0,                                                # 기호5번 좋아요
+        "like_6": 0,                                                # 기호6번 좋아요
+        "like_7": 0,                                                # 기호7번 좋아요
+        "like_8": 0,                                                # 기호8번 좋아요
+        "like_10": 0,                                               # 기호10번 좋아요
+        "like_11": 0,                                               # 기호11번 좋아요
+        "like_12": 0,                                               # 기호12번 좋아요
+        "like_13": 0,                                               # 기호13번 좋아요
+        "like_14": 0                                                # 기호14번 좋아요
     }
-    db.users.insert_one(doc)
-    return jsonify({'result': 'success'})
+    print(doc)
+    #중복체크 로직
+    user_list = list(db.users.find({"profile_name": name_receive, "gender":gender_receive}))
+    len_user = len(user_list)
+    print(len_user)
+    if len_user == 0:
+        db.users.insert_one(doc)
+        msg = 'success'
+    else:
+        msg = 'fail'
+    return jsonify({'result': msg})
 
 
 @app.route('/sign_up/check_dup', methods=['POST'])
@@ -169,6 +178,19 @@ def check_dup():
     username_receive = request.form['username_give']
     exists = bool(db.users.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
+
+@app.route('/posts/like/personal', methods=['POST'])
+def check_like():
+    username_receive = request.form['username_give']
+    can_num_receive = request.form['can_num_give']
+    #좋아요 상태 확인
+    like_list = list(db.like.find({"name": username_receive, "can_num": can_num_receive}, {'_id': False}))
+    cnt_like = len(like_list)
+    if cnt_like > 0:
+        msg = 'success'
+    else :
+        msg = 'fail'
+    return jsonify({'result': msg})
 
 
 if __name__ == '__main__':
