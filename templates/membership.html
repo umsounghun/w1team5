@@ -60,7 +60,6 @@
     <script>
 
         var tmp_value = $('input:radio[name=radio_name]:checked').val();
-        console.log(tmp_value);
 
         function sign_up() {
             let username = $("#input-username").val();
@@ -69,7 +68,6 @@
             let name = $("#input-name").val();
             var gender = $('input[name=list]:checked').val();
             let email = $("#input-email").val()
-            console.log(username, password, password2, name, gender, email)
 
 
             if ($("#help-id").hasClass("is-danger")) {
@@ -109,13 +107,23 @@
             } else {
                 $("#help-name").text("이름이 입력되었습니다.").removeClass("is-danger").addClass("is-success")
             }
-            if (name == "") {
+            if (email == "") {
                 $("#help-email").text("이메일을 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+                $("#input-email").focus()
+                return;
+            } else if (!email.includes("@")) {
+                $("#help-email").text("이메일이 아닙니다.").removeClass("is-safe").addClass("is-danger")
+                $("#input-email").focus()
+                return;
+            } else if (!email.includes(".")) {
+                $("#help-email").text("[ . ]를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
                 $("#input-email").focus()
                 return;
             } else {
                 $("#help-email").text("이메일이 입력되었습니다.").removeClass("is-danger").addClass("is-success")
             }
+
+
             $.ajax({
                 type: "POST",
                 url: "/sign_up/save",
@@ -180,7 +188,6 @@
                 }
             });
         }
-
 
 
     </script>
@@ -250,12 +257,6 @@
                                 <label><input type="radio" name="list" checked value="남자">남자</label>
                                 <label><input type="radio" name="list" value="여자">여자</label>
                             </div>
-                            <div id="btn-check-dup" class="control ">
-                                <button class="button is-sparta" onclick="check_dup_member()">회원 중복확인</button>
-                            </div>
-                            <div>
-                                <p id="help-member" class="help">이미 가입하신 회원입니다.</p>
-                            </div>
                         </div>
                         <div class="mb-5">
                             <div class="field">
@@ -268,6 +269,9 @@
                             </div>
                         </div>
                         <nav class="level is-mobile">
+                            <div>
+                                <p id="help-member" class="help">이미 가입하신 회원입니다.</p>
+                            </div>
                             <button class="level-item button is-sparta" onclick="sign_up()">
                                 회원가입
                             </button>
