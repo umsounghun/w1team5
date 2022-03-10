@@ -93,9 +93,6 @@ def comment_get():
     comment_list = list(db.comment.find({}, {'_id': False}))
     return jsonify({'comments': comment_list})
 
-@app.route('/posts')
-def posts():
-    return render_template('posts.html')
 @app.route('/posts/<keyword>')
 def posts(keyword):
     go_list = list(db.candidate.find({}, {'_id': False}))
@@ -235,25 +232,25 @@ def check_dup():
     exists = bool(db.users.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
-@app.route("/give_like", methods=["POST"])
-def give_like():
-    token_receive = request.cookies.get('mytoken')
-    try:
-    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    username = db.users.find_one({"username": payload["id"]})
-    cannum_receive = request.form["cannum_give"]
-    like_receive = request.form["like_give"]
-    doc= {
-        "can_num":cannum_receive,
-        "name":username["username"],
-        "status":like_receive
-    }
-    if like_receive == "like":
-        db.likes.update_one(doc)
-    else:
-        db.likes.delete_one(doc)
-    count = db.likes.count_documents({"cannum": cannum_receive, "username": username["username"]})
-    return jsonify({"result": "success", 'msg': 'updated', "count": count})
+# @app.route("/give_like", methods=["POST"])
+# def give_like():
+#     token_receive = request.cookies.get('mytoken')
+#     try:
+#     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+#     username = db.users.find_one({"username": payload["id"]})
+#     cannum_receive = request.form["cannum_give"]
+#     like_receive = request.form["like_give"]
+#     doc= {
+#         "can_num":cannum_receive,
+#         "name":username["username"],
+#         "status":like_receive
+#     }
+#     if like_receive == "like":
+#         db.likes.update_one(doc)
+#     else:
+#         db.likes.delete_one(doc)
+#     count = db.likes.count_documents({"cannum": cannum_receive, "username": username["username"]})
+#     return jsonify({"result": "success", 'msg': 'updated', "count": count})
 
 
 if __name__ == '__main__':

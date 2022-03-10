@@ -102,6 +102,20 @@
             } else {
                 $("#help-password2").text("비밀번호가 일치합니다.").removeClass("is-danger").addClass("is-success")
             }
+            if (name == "") {
+                $("#help-name").text("이름을 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+                $("#input-name").focus()
+                return;
+            } else {
+                $("#help-name").text("이름이 입력되었습니다.").removeClass("is-danger").addClass("is-success")
+            }
+            if (name == "") {
+                $("#help-email").text("이메일을 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+                $("#input-email").focus()
+                return;
+            } else {
+                $("#help-email").text("이메일이 입력되었습니다.").removeClass("is-danger").addClass("is-success")
+            }
             $.ajax({
                 type: "POST",
                 url: "/sign_up/save",
