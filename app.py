@@ -99,11 +99,11 @@ def posts():
 @app.route('/posts/<keyword>')
 def posts(keyword):
     go_list = list(db.candidate.find({}, {'_id': False}))
-    can_list = list(db.candidate.find({"name":keyword}))
+    can_list = list(db.candidate.find({'name':keyword}))
     word_receive = request.args.get("word_give")
 
     print(can_list)
-    return render_template('posts.html', go_list = go_list, list = can_list, word=keyword )
+    return render_template('posts.html', go_list = go_list, list = can_list, word=keyword)
 
 def Crowling():
     headers = {
@@ -234,6 +234,26 @@ def check_dup():
     username_receive = request.form['username_give']
     exists = bool(db.users.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
+
+@app.route("/give_like", methods=["POST"])
+def give_like():
+    token_receive = request.cookies.get('mytoken')
+    try:
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    username = db.users.find_one({"username": payload["id"]})
+    cannum_receive = request.form["cannum_give"]
+    like_receive = request.form["like_give"]
+    doc= {
+        "can_num":cannum_receive,
+        "name":username["username"],
+        "status":like_receive
+    }
+    if like_receive == "like":
+        db.likes.update_one(doc)
+    else:
+        db.likes.delete_one(doc)
+    count = db.likes.count_documents({"cannum": cannum_receive, "username": username["username"]})
+    return jsonify({"result": "success", 'msg': 'updated', "count": count})
 
 
 if __name__ == '__main__':
