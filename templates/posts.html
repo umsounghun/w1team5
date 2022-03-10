@@ -128,16 +128,14 @@
         // function if_login() {
         //     $.ajax({ 토큰값이 있는지 없는지 여부?
         //         type: "GET",
-        //         url: "/",어디서 받아와야하지..?
+        //         url: "/sign_in" 어디서 받아와야하지..?
         //         data: {},
         //         success: function (response) {
-        //             let rows = response['comments']
-        //             for (let i = 0; i < rows.length; i++) {
-        //                 let comment = rows[i]['comment']
-        //
-        //                 let temp_html = `<li>${comment}</li>`
-        //
-        //                 $('#comment-list').append(temp_html)
+        //             if (token == 뭔가가 있으면) {
+        //                  댓글 작성 가능하게
+        //                 } else {
+        //                  로그인 페이지로
+        //                 }
         //             }
         //         }
         //     });
