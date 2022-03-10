@@ -88,10 +88,10 @@ def check_dup():
     exists = bool(db.users.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
-@app.route('/posts')
-def comment():
-    msg = request.args.get("msg")
-    return render_template('posts.html', msg=msg)
+# @app.route('/posts')
+# def comment():
+#     msg = request.args.get("msg")
+#     return render_template('posts.html', msg=msg)
 
 @app.route("/posts/comment", methods=["POST"])
 def comment_post():
