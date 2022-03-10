@@ -4,191 +4,58 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
-
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-
-
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+     <link rel="stylesheet" type="text/css" href="/static/css/post.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR&display=swap"
-          rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Nanum+Gothic&display=swap"
-          rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Nanum+Gothic&display=swap"
-          rel="stylesheet">
-
-
+    <!-- Bulma CSS 링크 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <title>후보별페이지</title>
 
 
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     <title>뉴스</title>
 
-    <style>
-        .mybox {
-            width: 95%;
-            max-width: 250px;
-            padding: 20px;
-            box-shadow: 0px 0px 10px 0px lightblue;
-            margin-left: 804px;
-        }
-
-        .mycomment {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .mycomment > input {
-            width: 70%;
-        }
-
-        .index_header {
-            width: 100%;
-            height: 20%;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            background-color: #7D2AE2;
-        }
-
-        .index_header > button {
-            margin-top: 5px;
-            margin-right: 10px;
-            margin-bottom: 5px;
-            font-family: 'Black Han Sans', sans-serif;
-            font-size: 1.3em;
-        }
-
-        .index_header > label {
-            margin-top: 5px;
-            margin-left: 10px;
-            color: aliceblue;
-            font-family: 'Black Han Sans', sans-serif;
-            font-size: 1.3em;
-        }
-
-        .news_body {
-            background-color: green;
-            width: 95%;
-            max-width: 1200px;
-
-            margin: auto;
-            padding-top: 20px;
-
-        }
-
-        .navi {
-            background-color: red;
-            width: 95%;
-            margin: 20px;
-            display: flex;
-            padding: 5px;
-        }
-
-        .navi > button {
-            margin: auto;
-
-            padding: 10px;
-            margin: auto;
-        }
-
-        .news_viewer {
-            background-color: orange;
-            width: 95%;
-            max-width: 1200px;
-
-            padding: 10px;
-            margin: auto;
-        }
-
-        .new_frame {
-            background-color: whitesmoke;
-            width: 70%;
-            float: left;
-        }
-
-        .rightone {
-            background-color: lightpink;
-            float: left;
-            width: 30%;
-            font-size: 20px;
-            font-family: 'Nanum Brush Script', cursive;
-            font-family: 'Nanum Gothic', sans-serif;
-
-        }
-
-        .info {
-            background-color: mediumpurple;
-            margin: 5px;
-            height: 300px;
-        }
-
-        .title_title {
-            max-width: 1200px;
-            padding: 10px;
-            margin: 5px;
-        }
-
-        .title_lists {
-            background-color: yellow;
-            max-width: 1200px;
-            padding: 10px;
-            margin: 5px;
-        }
-
-
-        .news_brand {
-
-            padding: 20px;
-            margin: 20px auto;
-        }
-
-        .info > .photo {
-            float: left;
-            background-color: yellowgreen;
-            width: 60%;
-            height: 190px;
-            margin: 5px;
-        }
-
-        .info > .brief {
-            float: left;
-            background-color: aqua;
-            width: 30%;
-            margin: 5px;
-            height: 250px;
-        }
-
-
-    </style>
 
 
     <script>
-                $(document).ready(function () {
-                    show_comment();
-                });
+        $(document).ready(function () {
+            like_chk();
+        });
 
+        function like_chk()
+        {
+            //유저 ID 정보 확인
+            let username;
+            if(localStorage.getItem('username'))
+                 username = localStorage.getItem('username');
+            username = '개구리';
+            let symbol = '{{ list[0].symbol }}';
+            symbol = symbol.replace(/[^0-9]/g, '');
+
+            $.ajax({
+                type: "POST",
+                url: "/posts/like/personal",
+                data: {
+                    username_give: username,
+                    can_num_give : symbol
+                },
+                success: function (response) {
+                    const msg = response['result']
+                    if(msg == 'success')
+                        console.log('좋아요');
+                    else
+                        console.log('좋아요 취소');
+                }
+            })
+        }
             function give_like(username) {
                 if (username == undefined){
                 alert('좋아요는 로그인 후 가능합니다!')}
@@ -227,99 +94,167 @@
                     })
 
                 }}
+            function reload_can(name)
+            {
+                let page_reload = '/posts/'+name;
+                console.log(page_reload);
+                window.location.href= page_reload;
+
+            }
+
+            function locaction_move(url,can_nm){
+                console.log(url + can_nm);
+                $('#newsview').attr('src',url+can_nm);
+
+            }
+
+            function move_page(page_address)
+            {
+                total_ads = page_address + "/"
+                location.replace(total_ads);
+            }
 
     </script>
 
 </head>
 <body>
-<div class="index_header">
-    <label>누구 뽑지?</label>
-    <h3>당신은 지금 20대 대통령선거의 {{ list[0].symbol }}번 {{ word }} 후보를 보고 있습니다.</h3>
-    <button type="button" class="btn btn-success">로그인</button>
-</div>
-<!-- 전체 박스 -->
-<div class="news_body">
-
-
-    <div class="navi">
-{% for who in go_list %}
-        <button type="button" class="btn btn-outline-light" onclick="window.location.href='/posts/{{ who.name }}'">{{who.symbol}}</button>
-{% endfor %}
-
-    </div>
-
-    <!--사용자가 선택한 기사를 보여주는 박스-->
-        <div id="news_viewer">
-            <div class="news_viewer">
-                <div class="new_frame" id="new_frame">
-                    <iframe id="newsview" name="newsview" width=99% height="500" margin=auto src="https://news.kbs.co.kr/special/election2022/president/vote_counting.html"></iframe>
-                </div>
-
-                <div class="rightone">
-
-                    <div class="info">
-                        <div class="photo">
-                            <img src="{{ list[0].image }}">
-                        </div>
-                        <nav class="level is-mobile">
-                            <div class="level-left">
-                                <a class="level-item is-sparta" aria-label="heart"
-                                   onclick="give_like('', 'heart')">
-                                    <span class="icon is-small"><i class="fa fa-heart" aria-hidden="true"></i></span>&nbsp;
-                                    <span class="like-num"></span>
-                                </a>
-                            </div>
-
-                        </nav>
-                        <div class="brief">
-                            <p> {{ list[0].symbol }} </p>
-                            <p>이름</p>
-                            {{ word }}
-                            <p></p>
-                            <p>소속</p>
-                            <p>{{ list[0].party }}</p>
-                        </div>
-                    </div>
-
-                    <!-- 타이틀 리스트 박스 -->
-                    <div class="title_lists">
-                        <!--타이틀을 붙여주는 박스-->
-                        <div class="title_title">
-                            <h3>각 신문사별 {{ word }} 후보의 검색결과를 확인하세요!</h3>
-                        </div>
-                        <div class="news_brand" id="link">
-                            <a href="https://www.joongang.co.kr/search?keyword={{ word }}" target="newsview"
-                               onclick="newsview.location.href='https://www.joongang.co.kr/search?keyword={{ word }}'">
-                                <button>중앙</button>
-                            </a>
-                            <a href="https://www.donga.com/news/search?query={{ word }} " target="newsview"
-                               onclick="newsview.location.href='https://www.donga.com/news/search?query={{ word }}'">
-                                <button>동아</button>
-                            </a>
-                            <a href="https://search.khan.co.kr/search.html?sect=1&path=1&q={{ word }} " target="newsview"
-                               onclick="newsview.location.href='https://search.khan.co.kr/search.html?sect=1&path=1&q={{ word }}'">
-                                <button>경향</button>
-                            </a>
-                            <a href="https://imnews.imbc.com/more/search/?search_kwd={{ word }} " target="newsview"
-                               onclick="newsview.location.href='https://imnews.imbc.com/more/search/?search_kwd={{ word }}'">
-                                <button>mbc</button>
-                            </a>
-                            <a href="https://jtbc.joins.com/search?term={{ word }} " target="newsview"
-                               onclick="newsview.location.href='https://jtbc.joins.com/search?term={{ word }}'">
-                                <button>jtbc</button>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+<section class="hero is-info is-small">
+  <div class="hero-head">
+    <nav class="navbar">
+      <div class="container">
+        <div class="navbar-brand">
+          <span class="navbar-burger" data-target="navbarMenuHeroB">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
         </div>
+        <div id="navbarMenuHeroB" class="navbar-menu">
+          <div class="navbar-end">
+            <a class="navbar-item is-active" onclick="move_page('')">
+              Home
+            </a>
+            <a class="navbar-item">
+              회원가입
+            </a>
+            <span class="navbar-item">
+              <a class="button is-info is-inverted">
+                <span><strong>로그인</strong></span>
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
 
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <p class="title">
+        후보자 상세페이지
+      </p>
+      <p class="subtitle">
+        후보자 관련 뉴스 소개
+      </p>
+    </div>
+  </div>
 
-
-</div>
-
-
+  <div class="hero-foot">
+    <nav class="tabs is-boxed is-fullwidth">
+      <div class="container">
+        <ul>
+            {% for who in go_list %}
+            <li>
+                <a onclick="reload_can('{{ who.name }}')">{{who.symbol}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+      </div>
+    </nav>
+  </div>
+</section>
+<div class="container is-fullhd" style="height: 78vh">
+       <div class="bodys">
+            <div class="bodys-1">
+                <article class="panel is-info">
+                  <p class="panel-heading">뉴스 링크</p>
+                </article>
+                <div style="width: 100%; height: 88%">
+                      <iframe id="newsview" name="newsview" width=99% height="100%" margin=auto src="https://news.kbs.co.kr/special/election2022/president/vote_counting.html"></iframe>
+                </div>
+            </div>
+            <div class="bodys-2">
+                    <div class="bodys-2_child1" style="display: flex">
+                        <img style="height: 100%; object-fit: cover " src="{{ list[0].image }}">
+                        <div style="display: flex; flex-direction: column; height: 100%">
+                          <div class="level-item has-text-centered" style="height: 20%">
+                            <div>
+                              <p class="heading">순서</p>
+                              <p class="title is-5">{{ list[0].symbol }}</p>
+                            </div>
+                          </div>
+                          <div class="level-item has-text-centered" style="height: 20%">
+                                <div>
+                                  <p class="heading">후보자</p>
+                                  <p class="title is-5">{{ list[0].name }}</p>
+                                </div>
+                          </div>
+                          <div class="level-item has-text-centered" style="height: 20%">
+                                <div>
+                                  <p class="heading">소속</p>
+                                  <p class="title is-5">{{ list[0].party }}</p>
+                                </div>
+                          </div>
+                          <div class="level-item has-text-centered" style="height: 20%">
+                                <div>
+                                  <p class="heading">Likes</p>
+                                  <p class="title is-5">100</p>
+                                </div>
+                          </div>
+                          <button class="button is-info is-large is-fullwidth" style="margin-left: 3px; height: 18% ">좋아요</button>
+                        </div>
+                    </div>
+                    <div class="bodys-2_child2">
+                        <article class="panel is-info">
+                          <p class="panel-heading">
+                            언론사 리스트
+                          </p>
+                          <a class="panel-block">
+                             <span class="panel-icon">
+                              <i class="fas fa-book" aria-hidden="true"></i>
+                            </span>
+                            <p onclick="locaction_move('https://www.joongang.co.kr/search?keyword=','{{ word }}')">중앙 일보</p>
+                          </a>
+                          <a class="panel-block">
+                            <span class="panel-icon">
+                              <i class="fas fa-book" aria-hidden="true" ></i>
+                            </span>
+                            <p onclick="locaction_move('https://www.donga.com/news/search?query=','{{ word }}')">동아 일보</p>
+                          </a>
+                          <a class="panel-block">
+                            <span class="panel-icon">
+                              <i class="fas fa-book" aria-hidden="true"></i>
+                            </span>
+                            <p onclick="locaction_move('https://search.khan.co.kr/search.html?sect=1&path=1&q=','{{ word }}')">경향 신문</p>
+                          </a>
+                          <a class="panel-block">
+                            <span class="panel-icon">
+                              <i class="fas fa-book" aria-hidden="true"></i>
+                            </span>
+                            <p onclick="locaction_move('https://imnews.imbc.com/more/search/?search_kwd=','{{ word }}')">MBC NEWS</p>
+                          </a>
+                         <a class="panel-block">
+                            <span class="panel-icon">
+                              <i class="fas fa-book" aria-hidden="true"></i>
+                            </span>
+                            <p onclick="locaction_move('https://jtbc.joins.com/search?term=','{{ word }}')">JTBC</p>
+                          </a>
+                        </article>
+                    </div>
+                </div>
+            </div>
+       </div>
+   </div>
 
 </div>
 <div class="mybox">
