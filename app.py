@@ -190,7 +190,7 @@ def value_post():
 
 @app.route('/membership')
 def membership():
-    return render_template('membership.html')
+        return render_template('membership.html')
 
 # @app.route('/')
 # def membership():
@@ -221,7 +221,13 @@ def sign_up():
         "name": name_receive,                                       # 성함
         "gender": gender_receive,                                   # 성별
         "email": email_receive                                      # 이메일주소
-    }
+    # }
+    # 중복체크 로직
+    # user_list = list(db.users.find({'name': name_receive, 'gender': gender_receive}))
+    # len_user = len(user_list)
+    # print(len_user)
+    # if len_user == 0:
+    #     db.users.insert_one(doc)
     db.users.insert_one(doc)
     return jsonify({'result': 'success'})
 
@@ -231,6 +237,13 @@ def check_dup():
     username_receive = request.form['username_give']
     exists = bool(db.users.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
+
+# @app.route('/sign_up/check_dup_member', methods=['POST'])
+# def check_dup_member():
+#     name_receive = request.form['name_give']
+#     gender_receiv = request.form['gender_give']
+#     exists2 = bool(db.users.find_one({"name": name_receive})) and bool(db.users.find_one({"gender": gender_receiv}))
+#     return jsonify({'result': 'success', 'exists2': exists2})
 
 # @app.route("/give_like", methods=["POST"])
 # def give_like():
