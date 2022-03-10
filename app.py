@@ -15,25 +15,12 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
-ca = certifi.where()
-SECRET_KEY = 'SPARTA'
 
+SECRET_KEY = 'SPARTA'
 
 client = MongoClient('mongodb+srv://test:sparta@cluster0.e5mxe.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
 global doc
-
-# @app.route('/') #홈 중복
-# def home():
-#     token_receive = request.cookies.get('mytoken')
-#     try:
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-#         user_info = db.users.find_one({"username": payload["id"]})
-#         return render_template('index.html', user_info=user_info)
-#     except jwt.ExpiredSignatureError:
-#         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
-#     except jwt.exceptions.DecodeError:
-#         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 @app.route('/login')
 def login():
@@ -72,11 +59,6 @@ def sign_in():
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 
-@app.route('/posts')
-def comment():
-    msg = request.args.get("msg")
-    return render_template('posts.html', msg=msg)
-
 @app.route("/posts/comment", methods=["POST"])
 def comment_post():
     comment_receive = request.form['comment_give']
@@ -94,9 +76,6 @@ def comment_get():
     comment_list = list(db.comment.find({}, {'_id': False}))
     return jsonify({'comments': comment_list})
 
-@app.route('/posts')
-def posts():
-    return render_template('posts.html')
 @app.route('/posts/<keyword>')
 def posts(keyword):
     go_list = list(db.candidate.find({}, {'_id': False}))
@@ -194,31 +173,6 @@ def value_post():
 def membership():
     return render_template('membership.html')
 
-# @app.route('/')
-# def membership():
-#     token_receive = request.cookies.get('mytoken')
-#     try:
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-
-#         return render_template('index.html')
-#     except jwt.ExpiredSignatureError:
-#         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
-#     except jwt.exceptions.DecodeError:
-#         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
-
-
-@app.route('/membership')
-def login():
-    msg = request.args.get("msg")
-    return render_template('membership.html', msg=msg)
-
-
-@app.route('/login', methods=['POST'])
-def sign_in():
-    # 로그인
-    return jsonify({'result': 'success'})
-
-
 @app.route('/sign_up/save', methods=['POST'])
 def sign_up():
     username_receive = request.form['username_give']
@@ -253,25 +207,25 @@ def check_dup():
     exists = bool(db.users.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
-@app.route("/give_like", methods=["POST"])
-def give_like():
-    token_receive = request.cookies.get('mytoken')
-    try:
-    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    username = db.users.find_one({"username": payload["id"]})
-    cannum_receive = request.form["cannum_give"]
-    like_receive = request.form["like_give"]
-    doc= {
-        "can_num":cannum_receive,
-        "name":username["username"],
-        "status":like_receive
-    }
-    if like_receive == "like":
-        db.likes.update_one(doc)
-    else:
-        db.likes.delete_one(doc)
-    count = db.likes.count_documents({"cannum": cannum_receive, "username": username["username"]})
-    return jsonify({"result": "success", 'msg': 'updated', "count": count})
+# @app.route("/give_like", methods=["POST"])
+# def give_like():
+#     token_receive = request.cookies.get('mytoken')
+#     try:
+#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+#         username = db.users.find_one({"username": payload["id"]})
+#         cannum_receive = request.form["cannum_give"]
+#         like_receive = request.form["like_give"]
+#         doc= {
+#             "can_num":cannum_receive,
+#             "name":username["username"],
+#             "status":like_receive
+#         }
+#         if like_receive == "like":
+#             db.likes.update_one(doc)
+#         else:
+#             db.likes.delete_one(doc)
+#         count = db.likes.count_documents({"cannum": cannum_receive, "username": username["username"]})
+#         return jsonify({"result": "success", 'msg': 'updated', "count": count})
 
 @app.route('/posts/like/personal', methods=['POST'])
 def check_like():
