@@ -185,6 +185,36 @@
 
 
     <script>
+        $(document).ready(function () {
+            like_chk();
+        });
+
+        function like_chk()
+        {
+            //유저 ID 정보 확인
+            let username;
+            if(localStorage.getItem('username'))
+                 username = localStorage.getItem('username');
+            username = '개구리';
+            let symbol = {{ list[0].symbol }};
+            symbol = symbol.replace(/[^0-9]/g, '');
+
+            $.ajax({
+                type: "POST",
+                url: "/posts/like/personal",
+                data: {
+                    username_give: username,
+                    can_num_give : symbol
+                },
+                success: function (response) {
+                    const msg = response['result']
+                    if(msg == 'success')
+                        console.log('좋아요');
+                    else
+                        console.log('좋아요 취소');
+                }
+            })
+        }
 
 
             function give_like(username) {

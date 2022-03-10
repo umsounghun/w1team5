@@ -1,10 +1,13 @@
+from flask import Flask, render_template, request, jsonify, redirect, url_for
+app = Flask(__name__)
+
+import time
 import jwt
 import hashlib
-from flask import Flask, render_template, jsonify, request, redirect, url_for
-import certifi
-import time
+import datetime
 import schedule
 import requests
+
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 from datetime import datetime, timedelta
@@ -12,15 +15,13 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
-
 ca = certifi.where()
+SECRET_KEY = 'SPARTA'
 
 
 client = MongoClient('mongodb+srv://test:sparta@cluster0.e5mxe.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
 global doc
-
-SECRET_KEY = 'SPARTA'
 
 # @app.route('/') #홈 중복
 # def home():
@@ -99,11 +100,9 @@ def posts():
 @app.route('/posts/<keyword>')
 def posts(keyword):
     go_list = list(db.candidate.find({}, {'_id': False}))
-    can_list = list(db.candidate.find({'name':keyword}))
+    can_list = list(db.candidate.find({"name":keyword}))
     word_receive = request.args.get("word_give")
-
-    print(can_list)
-    return render_template('posts.html', go_list = go_list, list = can_list, word=keyword)
+    return render_template('posts.html', go_list = go_list, list = can_list, word=keyword )
 
 def Crowling():
     headers = {
@@ -235,8 +234,17 @@ def sign_up():
         "gender": gender_receive,                                   # 성별
         "email": email_receive                                      # 이메일주소
     }
-    db.users.insert_one(doc)
-    return jsonify({'result': 'success'})
+    print(doc)
+    #중복체크 로직
+    user_list = list(db.users.find({"name": name_receive, "gender":gender_receive}))
+    len_user = len(user_list)
+    print(len_user)
+    if len_user == 0:
+        db.users.insert_one(doc)
+        msg = 'success'
+    else:
+        msg = 'fail'
+    return jsonify({'result': msg})
 
 
 @app.route('/sign_up/check_dup', methods=['POST'])
@@ -264,6 +272,19 @@ def give_like():
         db.likes.delete_one(doc)
     count = db.likes.count_documents({"cannum": cannum_receive, "username": username["username"]})
     return jsonify({"result": "success", 'msg': 'updated', "count": count})
+
+@app.route('/posts/like/personal', methods=['POST'])
+def check_like():
+    username_receive = request.form['username_give']
+    can_num_receive = request.form['can_num_give']
+    #좋아요 상태 확인
+    like_list = list(db.like.find({"name": username_receive, "can_num": can_num_receive}, {'_id': False}))
+    cnt_like = len(like_list)
+    if cnt_like > 0:
+        msg = 'success'
+    else :
+        msg = 'fail'
+    return jsonify({'result': msg})
 
 
 if __name__ == '__main__':
