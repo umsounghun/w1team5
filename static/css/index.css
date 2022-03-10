@@ -89,8 +89,7 @@
 .card_element{
     display: flex;
     flex-direction: column;
-    border: #aaa outset 1px;
-    border-radius: 10px;
+
 }
 .card_img{
     margin:auto;
